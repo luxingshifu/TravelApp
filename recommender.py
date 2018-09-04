@@ -7,16 +7,41 @@ from collections import Counter
 import nltk
 import random
 import recsys
+from google.appengine.api import app_identity
+import google.cloud.storage
+
+import logging
+import webapp2
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
+storage_client = google.cloud.storage.Client("TravelApp")
 
 def create_recsys(matrix,dropout=.1,latent_features=4,max_iter=10,lr=.001,epochs=3,temperature=1,batch_size=50):
     return recsys.recsys(matrix,len(matrix),len(matrix[0]),latent_features,dropout,max_iter,epochs,temperature,lr,batch_size=batch_size)
 
-with open('model/model.pkl','rb') as f:
+# TODO (Developer): Replace this with your Cloud Storage bucket name.
+bucket_name = 'travelapp_luxingshifu'
+bucket = storage_client.get_bucket(bucket_name)
+
+# TODO (Developer): Replace this with the name of the local file to upload.
+file1 = 'full_place_list.pkl'
+file2 = 'model.pkl'
+file3 = 'processed_data.pkl'
+
+blob1 = bucket.blob(os.path.basename(file1))
+blob1.download_to_filename('full_place_list.pkl')
+
+blob2 = bucket.blob(os.path.basename(file2))
+blob2.download_to_filename('model.pkl')
+
+blob3 = bucket.blob(os.path.basename(file3))
+blob3.download_to_filename('processed_data.pkl')
+
+
+with open('model.pkl','rb') as f:
     model=pkl.load(f)
 
-with open('data/processed_data.pkl','rb') as f:
+with open('processed_data.pkl','rb') as f:
     data=pkl.load(f)
 
 
