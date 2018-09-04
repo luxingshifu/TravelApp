@@ -1,2 +1,0 @@
-# Kodak
-Awesome Travel App
