@@ -7,11 +7,11 @@ from collections import Counter
 import nltk
 import random
 import recsys
-from google.appengine.api import app_identity
+#from google.appengine.api import app_identity
 import google.cloud.storage
 
 import logging
-import webapp2
+#import webapp2
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 storage_client = google.cloud.storage.Client("TravelApp")
