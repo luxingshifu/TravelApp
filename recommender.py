@@ -8,6 +8,7 @@ import nltk
 import random
 import recsys
 #from google.appengine.api import app_identity
+# use the following line to load from bucket.
 import google.cloud.storage
 
 import logging
