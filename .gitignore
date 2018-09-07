@@ -2,3 +2,4 @@ model.pkl
 .ipynb_checkpoints/
 processed_data.pkl
 processed_data2.pkl
+*data*
