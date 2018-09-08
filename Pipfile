@@ -12,6 +12,7 @@ atom = "*"
 numpy = "*"
 sklearn = "*"
 scipy = "*"
+nltk= '*'
 pandas= "*"
 
 [requires]
