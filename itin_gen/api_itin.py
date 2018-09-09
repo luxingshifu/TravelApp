@@ -12,6 +12,7 @@ def itin_generator(user_preferences, budget=2000, ambition = [9, 17], temperatur
     from Fitness import Fitness
     import test2
     from test2 import propagate_change
+    from systemlimits import recursionlimit
     np.random.seed(52)
 
     # for current testing purposes
