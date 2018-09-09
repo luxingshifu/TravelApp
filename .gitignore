@@ -7,4 +7,5 @@ model/*
 data/
 .env
 model/proccessed_data.pkl
-*.pkl
+**.pkl
+model/*
