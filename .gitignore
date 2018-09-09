@@ -3,3 +3,8 @@ model.pkl
 processed_data.pkl
 processed_data2.pkl
 *data*
+model/*
+data/
+.env
+model/proccessed_data.pkl
+*.pkl

@@ -8,12 +8,9 @@ gunicorn = "*"
 django-heroku = "*"
 requests = "*"
 flask = "*"
-atom = "*"
 numpy = "*"
-sklearn = "*"
-scipy = "*"
-nltk= '*'
-pandas= "*"
+awscli = "*"
+
 
 [requires]
 python_version = "3.6"

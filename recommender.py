@@ -4,9 +4,9 @@ import pickle as pkl
 import os
 import math
 from collections import Counter
-import nltk
 import random
 import recsys
+import boto3
 #from google.appengine.api import app_identity
 # use the following line to load from bucket.
 # import google.cloud.storage
@@ -39,19 +39,24 @@ file3 = 'processed_data.pkl'
 # blob3.download_to_filename('processed_data.pkl')
 
 
-with open('model.pkl','rb') as f:
+with open('model/model.pkl','rb') as f:
     model=pkl.load(f)
 
-with open('processed_data.pkl','rb') as f:
-    data=pkl.load(f)
+# with open('model/processed_data.pkl','rb') as f:
+#     data=pkl.load(f)
 
+with open('model/place_profiles.pkl','rb') as f:
+    full_profiles=pkl.load(f)
 
-def preferences_to_placescores(preferences,weight,num_results=10,user_profiles=data[0],new_matrix=data[1],places=data[2],mpp=data[3],style_mapper=data[4]):
+with open('model/full_place_list.pkl','rb') as f:
+    full_place_list=pkl.load(f)
 
-    full_profiles, full_place_list, urp = mpp
-    zeros=np.zeros((len(new_matrix),len(urp)))
+#Just need full_profiles
+
+def preferences_to_placescores(preferences,weight,num_results=10,full_profiles=full_profiles):
+
     new_user_preferences=(10/sum(preferences))*np.array(preferences)
-    initialization=np.zeros(len(new_matrix[0])-len(preferences))
+    initialization=np.zeros(len(full_profiles))
     new_user=np.concatenate((new_user_preferences,initialization),axis=0)
     predictions_raw=model.predict(new_user)
     predictions=predictions_raw.detach().numpy()[len(preferences):]

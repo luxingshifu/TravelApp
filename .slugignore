@@ -1,0 +1,6 @@
+*file_*
+processed_data.pkl
+*ipynb
+/data
+nltk.txt
+/model
