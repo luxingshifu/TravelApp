@@ -2,7 +2,7 @@ model.pkl
 .ipynb_checkpoints/
 processed_data.pkl
 processed_data2.pkl
-model/
+model/*
 data/
 .env
 model/proccessed_data.pkl
