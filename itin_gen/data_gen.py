@@ -18,7 +18,8 @@ def get_fake_data(user_preferences):
 
     All_SF_sites = dict(zip(range(V), list(zip(similarities, highlight_bonuses, visit_lengths, ticket_prices))))
 
-    SF_sites = {key: value for (key, value) in All_SF_sites.items() if value[0] >= 4} #this may need to be altered pending input
+    #SF_sites = {key: value for (key, value) in All_SF_sites.items() if value[0] >= } #this may need to be altered pending input
+    SF_sites = All_SF_sites
     SF_sites = pd.DataFrame.from_dict(SF_sites).T
     SF_sites.columns = ['similarity', 'highlight_bonus', 'visit_length', 'visit_cost']
     #SF_sites.index.names = list(SF_sites.keys())
