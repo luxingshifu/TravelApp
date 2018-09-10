@@ -37,14 +37,14 @@ except botocore.exceptions.ClientError as e:
         raise
 
 
-with open('model/model.pkl','rb') as f:
-    model=pkl.load(f)
-
-with open('model/place_profiles.pkl','rb') as f:
-    full_profiles=pkl.load(f)
-
-with open('model/full_place_list.pkl','rb') as f:
-    full_place_list=pkl.load(f)
+# with open('model/model.pkl','rb') as f:
+#     model=pkl.load(f)
+#
+# with open('model/place_profiles.pkl','rb') as f:
+#     full_profiles=pkl.load(f)
+#
+# with open('model/full_place_list.pkl','rb') as f:
+#     full_place_list=pkl.load(f)
 
 # def get_data():
 #     return model, full_profiles, full_place_list

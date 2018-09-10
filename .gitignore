@@ -3,8 +3,8 @@ model.pkl
 processed_data.pkl
 processed_data2.pkl
 model/*
+!model/full_place_list.pkl
 data/
 .env
 model/proccessed_data.pkl
 **.pkl
-model/*
