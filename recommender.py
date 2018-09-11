@@ -54,14 +54,18 @@ with open('model/full_place_list.pkl','rb') as f:
 #Just need full_profiles
 
 def preferences_to_placescores(preferences,weight,num_results=10,full_profiles=full_profiles):
+    
+    s=1/(np.exp(-2*weight)+1)
 
     new_user_preferences=(10/sum(preferences))*np.array(preferences)
     initialization=np.zeros(len(full_profiles))
     new_user=np.concatenate((new_user_preferences,initialization),axis=0)
     predictions_raw=model.predict(new_user)
     predictions=predictions_raw.detach().numpy()[len(preferences):]
-    offset=[sum(new_user_preferences*x) for x in full_profiles]
-    final_predictions=predictions+weight*np.array(offset)
+    predictions_norm=(10/max(predictions))*predictions
+    offset=np.array([sum(new_user_preferences*x) for x in full_profiles])
+    offset_norm=(10/max(offset))*offset
+    final_predictions=(1-s)*predictions_norm+s*(10/max(offset))*offset
     place_prediction=sorted(list(enumerate(final_predictions)),key=lambda x: x[1],reverse=True)[:num_results]
 
     return [[full_place_list[x[0]],x[1]] for x in place_prediction]
