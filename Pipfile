@@ -10,6 +10,7 @@ requests = "*"
 flask = "*"
 numpy = "*"
 awscli = "*"
+torch = "*"
 
 
 [requires]
