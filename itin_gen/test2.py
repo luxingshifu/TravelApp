@@ -29,7 +29,8 @@ def get_fake_data(user_preferences):
     #SF_sites.index.names = list(SF_sites.keys())
 
     '''assign ID to sites'''
-    site_names = [site for site in SF_sites.index]
+    names = [pref[0] for pref in user_preferences]
+    site_names = [site for site in names]
     site_name_lookup = dict(zip(range(V), site_names))
 
     '''generate travel_matrix'''
