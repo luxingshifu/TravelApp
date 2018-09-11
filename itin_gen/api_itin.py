@@ -78,4 +78,4 @@ def itin_generator(user_preferences, budget=2000, ambition = [9, 17], temperatur
     # plt.xlabel('Iteration')
     # plt.show()
 
-    return progress, routes, best_score_index
+    return progress, routes, best_score_index, site_name_lookup 
