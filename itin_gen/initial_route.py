@@ -1,7 +1,7 @@
 def create_initial_route(start, stop, budget, tour_length, SF_sites, travel_matrix):
     import numpy as np
-    from Path import Path
-    from Fitness import Fitness
+    from test2 import Path
+    from test2 import Fitness
 
     sites = list(SF_sites.index)
     path = [start]
@@ -45,6 +45,6 @@ def create_initial_route(start, stop, budget, tour_length, SF_sites, travel_matr
     available_budget = budget - travel_matrix[1][path[-1]][stop]
     available_tour_length = tour_length - travel_matrix[0][path[-1]][stop]
 
-    score = Fitness(path, SF_sites, travel_matrix).route_fitness()
+    score = Fitness(path, o_budget, o_tour_length, available_budget, available_tour_length, SF_sites, travel_matrix).route_fitness()
 
     return path, score, [available_budget, available_tour_length]
