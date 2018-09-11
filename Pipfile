@@ -10,6 +10,7 @@ requests = "*"
 flask = "*"
 numpy = "*"
 awscli = "*"
+google.cloud.storage = "*"
 
 
 [requires]
