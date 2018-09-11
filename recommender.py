@@ -51,7 +51,24 @@ with open('model/place_profiles.pkl','rb') as f:
 with open('model/full_place_list.pkl','rb') as f:
     full_place_list=pkl.load(f)
 
+things_to_remove=pkl.load(open('things_to_remove.pkl','rb'))
 #Just need full_profiles
+
+def condition(x):
+    bad_words=['cafe', 'restaurant', 'bar', 'deli', 'diner','donald', 'panera','canteen','chophouse','saloon','eatery',\
+               'dive','fast-food','coffee','canteen','pizzeria','grill','drive-in','hamburger','caffe','kitchen',\
+                'taqueria','crepe','bagel','comer','bakery','steak','noodle','pizza','burger','sushi','hotel','cuisine',\
+              'bakeshop','bistro','donuts','baskin robbins','ice cream','jamba juice','pollo','subs','food','soft serve',\
+              'taco','ramen','shabu','jerry','holiday inn','chowder','gyros','cantina','fish','juice','taste','inn','pub',\
+              'mrs. fields','cebicheria','boulangerie','le marais','nijiya','uma casa','cupcakes','chicken','resturant',\
+              'sushirrito','motel','hotel','tavern','biscuit','warming','rv park','lounge','ihop','stinking','pizzetta',\
+              'puccini','tortilla']
+    return all([w not in x.lower() for w in bad_words])
+
+def condition_vivien(x):
+    return x not in things_to_remove
+
+
 
 def preferences_to_placescores(preferences,weight,num_results=10,full_profiles=full_profiles):
 
@@ -66,6 +83,7 @@ def preferences_to_placescores(preferences,weight,num_results=10,full_profiles=f
     offset=np.array([sum(new_user_preferences*x) for x in full_profiles])
     offset_norm=(10/max(offset))*offset
     final_predictions=(1-s)*predictions_norm+s*(10/max(offset))*offset
-    place_prediction=sorted(list(enumerate(final_predictions)),key=lambda x: x[1],reverse=True)[:num_results]
-
-    return [[full_place_list[x[0]],x[1]] for x in place_prediction]
+    place_prediction=sorted(list(enumerate(final_predictions)),key=lambda x: x[1],reverse=True)
+    potentials=[[full_place_list[x[0]],x[1]] for x in place_prediction]
+    filtered=list(filter(lambda x: condition(x[0])  and condition_vivien(x[0]),potentials))[:num_results]
+    return filtered

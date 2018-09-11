@@ -13,19 +13,15 @@ def do_prediction():
     print(data)
     print("Zup yo")
 
-    response1=make_prediction(data)
+    response=make_prediction(data)
 
-    progress, routes, best_route, names=itin_generator(response1['recommendations'],alpha=.8,max_iterations=1000)
-
-    actual_route=[names[val] for val in routes[best_route][0]]
-    print(f'This is the actual route {actual_route})')
 
 
     #print("zuppppppp")
     #print(type(data['city']))
 
 
-    return jsonify(actual_route)
+    return jsonify(response)
 
 
 @app.route('/')

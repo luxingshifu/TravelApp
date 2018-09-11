@@ -171,7 +171,7 @@
       data: JSON.stringify(features),
       success: (result) => {
         // $('#hard_predict').html(result['prediction'] ? 'Success!' : 'You are a total failure!!!');
-        $('#rec_res').html(result['recommendations'])
+        $('#rec_res').html(result['actual_route'])
       },
       error: (result) => {
         alert('Get your shit toogether man!');
