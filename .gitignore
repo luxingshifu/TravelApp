@@ -8,3 +8,4 @@ data/
 model/proccessed_data.pkl
 **.pkl
 !model/full_place_list.pkl
+__pycache__/
