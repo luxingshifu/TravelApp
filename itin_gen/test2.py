@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from copy import deepcopy
 import math
-from system_limits import recursionlimit
 
 class Path:
     def __init__(self, from_attraction, to_attraction, SF_sites, travel_matrix):
@@ -164,7 +163,6 @@ def get_neighbors(node_index, current_path, budget, tour_length, leftover_budget
     neighbors = nodes_to_check[((nodes_to_check['final_budget'] >= 0) & (nodes_to_check['final_tour_length'] >= 0)) & ((nodes_to_check['final_budget'] < .15*budget) | (nodes_to_check['final_tour_length'] < .15*tour_length))]
     return neighbors.index
 
-
 class get_new_route():
 
     def __init__(self, current_route, budget, tour_length, SF_sites, travel_matrix):
@@ -310,7 +308,65 @@ def update_path(current_path, candidate, temperature):
     return current_path
 
 def propagate_change(current_route, budget, tour_length, SF_sites, travel_matrix, temperature):
-    with recursionlimit(5000):
-        candidate = get_candidate(current_route, budget, tour_length, SF_sites, travel_matrix)
-        updated_route = update_path(current_route, candidate, temperature)
+    candidate = get_candidate(current_route, budget, tour_length, SF_sites, travel_matrix)
+    updated_route = update_path(current_route, candidate, temperature)
     return updated_route
+# def simulated_annealing_plot(budget, tour_length, SF_sites, travel_matrix, temperature=100, stopping_temperature=0.00000001, max_iterations=10000, alpha=0.995):
+#     #np.random.seed(52)
+#     iteration = 1
+#
+#     start, stop = get_start_and_end(SF_sites)
+#     print(start, stop)
+#
+#     '''create an initial route'''
+#     current_route = create_initial_route(start, stop, budget, tour_length, SF_sites, travel_matrix)
+#
+#     progress = []
+#     routes = []
+#
+#     '''keep track of score from initial selection'''
+#     initial_score = current_route[1]
+#     progress.append(current_route[1])
+#     print(progress)
+#
+#     '''keep track of route from initial selection'''
+#     routes.append(current_route)
+#
+#
+#     '''modify and iterate until temperature has cooled or iterations have been hit'''
+#     while (temperature > stopping_temperature) & (iteration < max_iterations):
+#         '''get a candidate'''
+#
+#         current_route = propagate_change(current_route, budget, tour_length, SF_sites, travel_matrix, temperature)
+#
+#         if (iteration % 50 == 0) :
+#             print(iteration, temperature, progress[-1])
+#
+#             '''not bonanza!!!!! raise temperature by '''
+#             if len(progress) > 50 and (progress[-50] == progress[-1]):
+#                 temperature *= 2-alpha/(2*50)
+#         else:
+#             '''decrease per usual'''
+#             temperature *= alpha
+#
+#         '''iter-plus'''
+#         iteration += 1
+#
+#         '''keep track of the best score & route from the current generation'''
+#         progress.append(current_route[1])
+#
+#         routes.append(current_route)
+#
+#
+#     '''create the plot'''
+#     plt.plot(progress)
+#     plt.ylabel('Fitness Score')
+#     plt.xlabel('Iteration')
+#     plt.show()
+#
+#     best_score_index = np.argmax(np.array(progress))
+#     best_score = progress[best_score_index]
+#     best_route = routes[best_score_index]
+#     print(best_score, best_route)
+#
+#     return progress, route, best_score_index
