@@ -3,6 +3,50 @@ import numpy as np
 import matplotlib.pyplot as plt
 from copy import deepcopy
 import math
+# from system_limits import recursionlimit
+
+def get_fake_data(user_preferences):
+
+    V = len(user_preferences)
+
+    '''generate SF_sites data'''
+    similarities = [pref[1] for pref in user_preferences]
+    visit_lengths = 60*np.random.randint(1,4, size=V)
+    ticket_prices = np.random.randint(0, 50, size = V)
+
+    highlight_reel = np.random.randint(0,V,10)
+    highlight_bonuses = np.ones(V)
+
+    for highlight in highlight_reel:
+        highlight_bonuses[highlight] = 1.25
+
+    All_SF_sites = dict(zip(range(V), list(zip(similarities, highlight_bonuses, visit_lengths, ticket_prices))))
+
+    #SF_sites = {key: value for (key, value) in All_SF_sites.items() if value[0] >= } #this may need to be altered pending input
+    SF_sites = All_SF_sites
+    SF_sites = pd.DataFrame.from_dict(SF_sites).T
+    SF_sites.columns = ['similarity', 'highlight_bonus', 'visit_length', 'visit_cost']
+    #SF_sites.index.names = list(SF_sites.keys())
+
+    '''assign ID to sites'''
+    site_names = [site for site in SF_sites.index]
+    site_name_lookup = dict(zip(range(V), site_names))
+
+    '''generate travel_matrix'''
+    D = 2
+    positions = np.random.randint(2,300, size=(V, D))
+    differences = positions[:, None, :] - positions[None, :, :]
+    travel_times = np.sqrt(np.sum(differences**2, axis=-1))
+
+    costs = np.random.randint(0,15, size=(V, D))
+    distances = costs[:, None, :] - costs[None, :, :]
+    travel_costs = np.sqrt(np.sum(distances**2, axis=-1))
+
+    travel_times_df = pd.DataFrame(travel_times)[list(SF_sites.index)].iloc[list(SF_sites.index)]
+    travel_costs_df = pd.DataFrame(travel_costs)[list(SF_sites.index)].iloc[list(SF_sites.index)]
+    travel_matrix = [travel_times_df, travel_costs_df]
+
+    return site_name_lookup, SF_sites, travel_matrix
 
 class Path:
     def __init__(self, from_attraction, to_attraction, SF_sites, travel_matrix):
@@ -36,15 +80,19 @@ class Path:
 
 class Fitness:
 
-    def __init__(self, route, SF_sites, travel_matrix):
+    def __init__(self, route, budget, tour_length, available_budget, available_tour_length, SF_sites, travel_matrix):
         self.route = route
         self.distance = 0
         self.fitness = 0.0
         self.SF_sites = SF_sites
         self.travel_matrix = travel_matrix
+        self.o_budget = budget
+        self.o_tour_length = tour_length
+        self.available_budget = available_budget
+        self.available_tour_length = available_tour_length
 
     def route_fitness(self):
-        from Path import Path
+#         from Path import Path
 
         if self.fitness == 0:
             path_fitness = 0
@@ -53,19 +101,31 @@ class Fitness:
                 to_attraction = self.route[i+1]
                 path = Path(from_attraction, to_attraction, self.SF_sites, self.travel_matrix)
                 path_fitness += path.score()
-        self.fitness = path_fitness
+
+            spent_budget = self.o_budget - self.available_budget
+            spent_tour_length = self.o_tour_length - self.available_tour_length
+
+            if (spent_budget < self.o_budget):
+                budget_score = .3*path_fitness
+            else:
+                budget_score = -.5*path_fitness
+
+            if (spent_tour_length < self.o_tour_length):
+                tour_length_score = .3*path_fitness
+            else:
+                tour_length_score = -.5*path_fitness
+
+        self.fitness = path_fitness + budget_score + tour_length_score
         return self.fitness
 
-def get_start_and_end(SF_sites):
+def get_start_and_stop(SF_sites):
+
     sites = list(SF_sites.index)
     start = np.random.choice(sites)
     stop = start
     return start, stop
 
 def create_initial_route(start, stop, budget, tour_length, SF_sites, travel_matrix):
-    import numpy as np
-    from Path import Path
-    from Fitness import Fitness
 
     sites = list(SF_sites.index)
     path = [start]
@@ -109,7 +169,7 @@ def create_initial_route(start, stop, budget, tour_length, SF_sites, travel_matr
     available_budget = budget - travel_matrix[1][path[-1]][stop]
     available_tour_length = tour_length - travel_matrix[0][path[-1]][stop]
 
-    score = Fitness(path, SF_sites, travel_matrix).route_fitness()
+    score = Fitness(path, o_budget, o_tour_length, available_budget, available_tour_length, SF_sites, travel_matrix).route_fitness()
 
     return path, score, [available_budget, available_tour_length]
 
@@ -160,8 +220,9 @@ def get_neighbors(node_index, current_path, budget, tour_length, leftover_budget
     nodes_to_check = pd.concat([new_final_budget, new_final_tour_length], axis=1)
 
     '''check neighbors for viability'''
-    neighbors = nodes_to_check[((nodes_to_check['final_budget'] >= 0) & (nodes_to_check['final_tour_length'] >= 0)) & ((nodes_to_check['final_budget'] < .15*budget) | (nodes_to_check['final_tour_length'] < .15*tour_length))]
+    neighbors = nodes_to_check[((nodes_to_check['final_budget'] >= 0) & (nodes_to_check['final_tour_length'] >= 0))]
     return neighbors.index
+
 
 class get_new_route():
 
@@ -182,13 +243,17 @@ class get_new_route():
 
     def roulette(self):
         num_options = 0
+        if self.length == 3:
+            wait_and_see = 0
+            node_index = [1,]
+            return wait_and_see, node_index
         if self.length < 4:
             num_options = 2
         else:
             num_options = 3
 
         wait_and_see = np.random.choice(range(num_options))
-        node_index = np.random.choice(range(1, self.length-1), size=(num_options - 1,), replace=False)
+        node_index = np.random.choice(range(1, self.length-1), size=(num_options-1,), replace=False)
 
         return wait_and_see, node_index
 
@@ -232,78 +297,54 @@ class get_new_route():
         candidate_0 = current_route
         for index in range(indices[0], indices[1]+1):
             candidate_0 = self.insertion(index, candidate_0)
-            candidate_0 = self.deletion((index+1), candidate_0)
+            if len(candidate_0) > len(current_route):
+                candidate_0 = self.deletion((index+1), candidate_0)
         return candidate_0
 
-    def get_surviving_candidate(self, node_index, wait_and_see, candidate_0):
-        candidate = tag_survival(candidate_0, self.o_budget, self.o_tour_length, self.SF_sites, self.travel_matrix)
-        trials = 0
+    def score_candidate(self, candidate):
+        budget = self.o_budget
+        tour_length = self.o_tour_length
 
-        while ((candidate == '') & (trials < self.max_loops)):
-            wait_and_see, node_index = self.roulette()
-            candidate = self.next_move(wait_and_see, node_index)
-            candidate = tag_survival(candidate, self.o_budget, self.o_tour_length, self.SF_sites, self.travel_matrix)
-            trials += 1
+        for index in range(len(candidate)-1):
+            site_A = candidate[index]
+            site_B = candidate[index+1]
 
-        if (trials == self.max_loops):
-            wait_and_see, node_index = self.roulette()
-            candidate = self.next_move(wait_and_see, node_index)
-            candidate = self.get_surviving_candidate(node_index, wait_and_see, candidate)
+            '''budget - ticket_prices - cost of traveling from location A to location B'''
+            budget = budget - self.SF_sites['visit_cost'][site_B] - self.travel_matrix[1][site_A][site_B]
 
-#         new_route = get_new_route(candidate, SF_sites_df, travel_matrix)
-#         print(new_route.score)
-        return candidate
+            '''tour_length - visit_length - time to travel from location A to location B'''
+            tour_length = tour_length - self.SF_sites['visit_length'][site_B] - self.travel_matrix[0][site_A][site_B]
 
+            leftover_budget = budget
+            leftover_tour_length = tour_length
+
+        route_score = Fitness(candidate, self.o_budget, self.o_tour_length, self.leftover_budget, self.leftover_tour_length, self.SF_sites, self.travel_matrix).route_fitness()
+        return candidate, route_score, [leftover_budget, leftover_tour_length]
 
 def get_candidate(current_route, budget, tour_length, SF_sites, travel_matrix):
     current_route = get_new_route(current_route, budget, tour_length, SF_sites, travel_matrix)
     wait_and_see, node_index = current_route.roulette()
     candidate = current_route.next_move(wait_and_see, node_index)
-    current_route = current_route.get_surviving_candidate(node_index, wait_and_see, candidate)
+    current_route = current_route.score_candidate(candidate)
     return current_route
-
-def tag_survival(candidate, budget, tour_length, SF_sites, travel_matrix):
-    o_budget = budget
-    o_tour_length = tour_length
-
-    for index in range(len(candidate)-1):
-        site_A = candidate[index]
-        site_B = candidate[index+1]
-
-        '''budget - ticket_prices - cost of traveling from location A to location B'''
-        budget = budget - SF_sites['visit_cost'][site_B] - travel_matrix[1][site_A][site_B]
-
-        '''tour_length - visit_length - time to travel from location A to location B'''
-        tour_length = tour_length - SF_sites['visit_length'][site_B] - travel_matrix[0][site_A][site_B]
-
-        if (budget < 0) | (tour_length < 0):
-            return ''
-
-    leftover_budget = budget
-    leftover_tour_length = tour_length
-
-    if ((leftover_budget <= 0.15*o_budget) | (leftover_tour_length <= 0.15*o_tour_length)):
-        score = Fitness(candidate, SF_sites, travel_matrix).route_fitness()
-        return candidate, score, [leftover_budget, leftover_tour_length]
-    else:
-        return ''
-
-
 
 def probability_move(current_path, candidate, temperature):
 
     '''fitness is recorded in <path>[1]'''
     '''if the candidate is better, return a probability of 1 for updating'''
-    if (current_path[1] - candidate[1]) < 0.001:
+    if candidate[1] - current_path[1] > 0:
         return 1
+    elif candidate[1] < 0:
+        print(candidate[1])
+        return 0
     else:
         ''' let the cooling function handle the updating probability'''
-        return math.exp(-abs(current_path[1] - candidate[1])/temperature)
+        return math.exp(-(current_path[1] - candidate[1])/temperature)
 
 def update_path(current_path, candidate, temperature):
     p_prob = probability_move(current_path, candidate, temperature)
+    print(p_prob)
     if np.random.random() < p_prob:
-        current_path = candidate
         return candidate
     return current_path
 
@@ -311,62 +352,3 @@ def propagate_change(current_route, budget, tour_length, SF_sites, travel_matrix
     candidate = get_candidate(current_route, budget, tour_length, SF_sites, travel_matrix)
     updated_route = update_path(current_route, candidate, temperature)
     return updated_route
-# def simulated_annealing_plot(budget, tour_length, SF_sites, travel_matrix, temperature=100, stopping_temperature=0.00000001, max_iterations=10000, alpha=0.995):
-#     #np.random.seed(52)
-#     iteration = 1
-#
-#     start, stop = get_start_and_end(SF_sites)
-#     print(start, stop)
-#
-#     '''create an initial route'''
-#     current_route = create_initial_route(start, stop, budget, tour_length, SF_sites, travel_matrix)
-#
-#     progress = []
-#     routes = []
-#
-#     '''keep track of score from initial selection'''
-#     initial_score = current_route[1]
-#     progress.append(current_route[1])
-#     print(progress)
-#
-#     '''keep track of route from initial selection'''
-#     routes.append(current_route)
-#
-#
-#     '''modify and iterate until temperature has cooled or iterations have been hit'''
-#     while (temperature > stopping_temperature) & (iteration < max_iterations):
-#         '''get a candidate'''
-#
-#         current_route = propagate_change(current_route, budget, tour_length, SF_sites, travel_matrix, temperature)
-#
-#         if (iteration % 50 == 0) :
-#             print(iteration, temperature, progress[-1])
-#
-#             '''not bonanza!!!!! raise temperature by '''
-#             if len(progress) > 50 and (progress[-50] == progress[-1]):
-#                 temperature *= 2-alpha/(2*50)
-#         else:
-#             '''decrease per usual'''
-#             temperature *= alpha
-#
-#         '''iter-plus'''
-#         iteration += 1
-#
-#         '''keep track of the best score & route from the current generation'''
-#         progress.append(current_route[1])
-#
-#         routes.append(current_route)
-#
-#
-#     '''create the plot'''
-#     plt.plot(progress)
-#     plt.ylabel('Fitness Score')
-#     plt.xlabel('Iteration')
-#     plt.show()
-#
-#     best_score_index = np.argmax(np.array(progress))
-#     best_score = progress[best_score_index]
-#     best_route = routes[best_score_index]
-#     print(best_score, best_route)
-#
-#     return progress, route, best_score_index
