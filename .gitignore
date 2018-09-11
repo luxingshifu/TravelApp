@@ -9,3 +9,6 @@ model/proccessed_data.pkl
 **.pkl
 !model/full_place_list.pkl
 __pycache__/
+getdata_s3.py
+getdata_gc.py
+*.ipynb
