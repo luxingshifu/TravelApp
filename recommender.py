@@ -54,10 +54,10 @@ with open('model/full_place_list.pkl','rb') as f:
 #Just need full_profiles
 
 def preferences_to_placescores(preferences,weight,num_results=10,full_profiles=full_profiles):
-    
+
     s=1/(np.exp(-2*weight)+1)
 
-    new_user_preferences=(10/sum(preferences))*np.array(preferences)
+    new_user_preferences=np.array(preferences)
     initialization=np.zeros(len(full_profiles))
     new_user=np.concatenate((new_user_preferences,initialization),axis=0)
     predictions_raw=model.predict(new_user)

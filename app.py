@@ -1,5 +1,6 @@
 from flask import Flask, abort, render_template, jsonify, request
 from api import make_prediction
+from api_itin import itin_generator
 
 app=Flask('TravelApp')
 
@@ -12,12 +13,19 @@ def do_prediction():
     print(data)
     print("Zup yo")
 
-    response=make_prediction(data)
+    response1=make_prediction(data)
+
+    progress, routes, best_route, names=itin_generator(response1['recommendations'],alpha=.8,max_iterations=1000)
+
+    actual_route=[names[val] for val in routes[best_route][0]]
+    print(f'This is the actual route {actual_route})')
+
+
     #print("zuppppppp")
     #print(type(data['city']))
 
 
-    return jsonify(response)
+    return jsonify(actual_route)
 
 
 @app.route('/')
