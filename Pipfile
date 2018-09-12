@@ -8,7 +8,6 @@ gunicorn = "*"
 requests = "*"
 flask = "*"
 numpy = "*"
-
 torch = "*"
 
 
