@@ -11,7 +11,6 @@ def get_fake_data(user_preferences):
 
     '''generate SF_sites data'''
     similarities = [pref[1] for pref in user_preferences]
-    print(f'similarities is ..... {similarities})')
     visit_lengths = 60*np.random.randint(1,4, size=V)
     ticket_prices = np.random.randint(0, 50, size = V)
 
@@ -30,8 +29,7 @@ def get_fake_data(user_preferences):
     #SF_sites.index.names = list(SF_sites.keys())
 
     '''assign ID to sites'''
-    names = [pref[0] for pref in user_preferences]
-    site_names = [site for site in names]
+    site_names = [pref[0] for pref in user_preferences]
     site_name_lookup = dict(zip(range(V), site_names))
 
     '''generate travel_matrix'''
