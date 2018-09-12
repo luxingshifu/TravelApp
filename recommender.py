@@ -62,7 +62,12 @@ with open('model/full_place_list.pickle','rb') as f:
 model=recsys.recsys(latent_features=10,sites=len(full_place_list)+4)
 model.load_state_dict(torch.load('model/model2'))
 
-things_to_remove=pkl.load(open('things_to_remove.pkl','rb'))
+things_to_remove=pkl.load(open('things_to_remove.pickle','rb'))
+try:
+    site_index=pkl.load(open('site_index.pickle','rb'))
+except:
+    pass
+
 #Just need full_profiles
 
 def condition(x):
@@ -78,6 +83,8 @@ def condition(x):
 
 def condition_vivien(x):
     return x not in things_to_remove
+
+
 
 
 
