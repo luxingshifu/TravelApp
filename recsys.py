@@ -78,21 +78,21 @@ class recsys(nn.Module):
 
 
     def forward(self,x):
-        print("Hola", flush=True)
+        # print("Hola", flush=True)
         x=self.imputer(x)
-        print("Ni hao", flush=True)
+        # print("Ni hao", flush=True)
         x=self.linear1(x.float())
-        print("Bonjour", flush=True)
+        # print("Bonjour", flush=True)
         x=torch.tanh(x)
-        print("Konnchi wa", flush=True)
+        # print("Konnchi wa", flush=True)
         x=self.linear2(x.float())
-        print("Ohio gayzomouse", flush=True)
+        # print("Ohio gayzomouse", flush=True)
         #x=self.dropout(x.float())
-        print("Anyoung", flush=True)
+        # print("Anyoung", flush=True)
         x=torch.tanh(x)
-        print("Ki ora", flush=True)
+        # print("Ki ora", flush=True)
         x=self.linear3(x.float())
-        print("g'day", flush=True)
+        # print("g'day", flush=True)
         return x
 
 
@@ -108,9 +108,9 @@ class recsys(nn.Module):
 
 
     def predict(self,x):
-        print("About to impute", flush = True)
+        # print("About to impute", flush = True)
         x=self.imputer(x)
-        print("Imputed", flush=True)
+        # print("Imputed", flush=True)
         return self.forward(x)
 
     def fit(self,ratings=None):
