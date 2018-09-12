@@ -49,10 +49,10 @@ file3 = 'processed_data.pkl'
 # with open('model/processed_data.pkl','rb') as f:
 #     data=pkl.load(f)
 
-with open('model/place_profiles.pkl','rb') as f:
+with open('model/place_profiles.pickle','rb') as f:
     full_profiles=pkl.load(f)
 
-with open('model/full_place_list.pkl','rb') as f:
+with open('model/full_place_list.pickle','rb') as f:
     full_place_list=pkl.load(f)
 
 #note, the +4 is due to the length of prefs.
