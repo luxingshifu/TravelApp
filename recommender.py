@@ -6,7 +6,9 @@ import math
 from collections import Counter
 import random
 import recsys
-import boto3
+import torch
+import torch.nn as nn
+
 #from google.appengine.api import app_identity
 # use the following line to load from bucket.
 # import google.cloud.storage
@@ -17,8 +19,8 @@ import boto3
 # from fuzzywuzzy import process
 # storage_client = google.cloud.storage.Client("TravelApp")
 
-def create_recsys(matrix,dropout=.1,latent_features=4,max_iter=10,lr=.001,epochs=3,temperature=1,batch_size=50):
-    return recsys.recsys(matrix,len(matrix),len(matrix[0]),latent_features,dropout,max_iter,epochs,temperature,lr,batch_size=batch_size)
+# def create_recsys(matrix,dropout=.1,latent_features=4,max_iter=10,lr=.001,epochs=3,temperature=1,batch_size=50):
+#     return recsys.recsys(matrix,len(matrix),len(matrix[0]),latent_features,dropout,max_iter,epochs,temperature,lr,batch_size=batch_size)
 
 # # TODO (Developer): Replace this with your Cloud Storage bucket name.
 # bucket_name = 'travelapp_luxingshifu'
@@ -39,8 +41,10 @@ file3 = 'processed_data.pkl'
 # blob3.download_to_filename('processed_data.pkl')
 
 
-with open('model/model.pkl','rb') as f:
-    model=pkl.load(f)
+
+#
+# with open('model/model.pkl','rb') as f:
+#     model=pkl.load(f)
 
 # with open('model/processed_data.pkl','rb') as f:
 #     data=pkl.load(f)
@@ -50,6 +54,11 @@ with open('model/place_profiles.pkl','rb') as f:
 
 with open('model/full_place_list.pkl','rb') as f:
     full_place_list=pkl.load(f)
+
+#note, the +4 is due to the length of prefs.
+
+model=recsys.recsys(latent_features=10,sites=len(full_place_list)+4)
+model.load_state_dict(torch.load('model/model2'))
 
 things_to_remove=pkl.load(open('things_to_remove.pkl','rb'))
 #Just need full_profiles
@@ -72,8 +81,9 @@ def condition_vivien(x):
 
 def preferences_to_placescores(preferences,weight,num_results=10,full_profiles=full_profiles):
 
-    s=1/(np.exp(-2*weight)+1)
+    #Idea, add result of neural network to a feature based recommender.
 
+    s=1/(np.exp(-2*weight)+1)
     new_user_preferences=np.array(preferences)
     initialization=np.zeros(len(full_profiles))
     new_user=np.concatenate((new_user_preferences,initialization),axis=0)

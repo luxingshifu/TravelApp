@@ -1,7 +1,8 @@
 
 .ipynb_checkpoints/
 
-
+model/model3
+model/model.pkl
 data/
 .env
 model/proccessed_data.pkl
