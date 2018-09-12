@@ -87,7 +87,7 @@ class recsys(nn.Module):
         print("Konnchi wa", flush=True)
         x=self.linear2(x.float())
         print("Ohio gayzomouse", flush=True)
-        x=self.dropout(x.float())
+        #x=self.dropout(x.float())
         print("Anyoung", flush=True)
         x=torch.tanh(x)
         print("Ki ora", flush=True)
