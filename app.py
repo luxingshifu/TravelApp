@@ -1,5 +1,5 @@
 from flask import Flask, abort, render_template, jsonify, request
-from api import make_prediction
+# from api import make_prediction
 # import itin_gen.api_itin as api_itin
 # from api_itin import itin_generator
 
@@ -16,13 +16,14 @@ def do_prediction():
 
     response=make_prediction(data)
 
-
+    result = {'actual_route':'hello'}
 
     #print("zuppppppp")
     #print(type(data['city']))
 
 
-    return jsonify(response)
+    # return jsonify(response)
+    return jsonify(result)
 
 
 @app.route('/')
