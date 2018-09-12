@@ -1,10 +1,10 @@
-model.pkl
+
 .ipynb_checkpoints/
-processed_data.pkl
-processed_data2.pkl
-model/*
-data/
+
+/model/model3
+/model/model.pkl
+/data/
 .env
-model/proccessed_data.pkl
+/model/proccessed_data.pkl
 **.pkl
-!model/full_place_list.pkl
+__pycache__/

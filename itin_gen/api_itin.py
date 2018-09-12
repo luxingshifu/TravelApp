@@ -10,7 +10,9 @@ def itin_generator(user_preferences, budget=2000, ambition = [9, 17], temperatur
     # from test_locations import get_start_and_stop
     # from Path import Path
     # from Fitness import Fitness
-    import test2
+
+    import itin_gen.test2 as test2
+    #import test2
 
     np.random.seed(55)
 
@@ -78,4 +80,4 @@ def itin_generator(user_preferences, budget=2000, ambition = [9, 17], temperatur
     # plt.xlabel('Iteration')
     # plt.show()
 
-    return progress, route, best_score_index
+    return progress, routes, best_score_index, site_name_lookup

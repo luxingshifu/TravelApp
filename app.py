@@ -1,5 +1,6 @@
 from flask import Flask, abort, render_template, jsonify, request
 from api import make_prediction
+from api_itin import itin_generator
 
 app=Flask('TravelApp')
 
@@ -13,6 +14,9 @@ def do_prediction():
     print("Zup yo")
 
     response=make_prediction(data)
+
+
+
     #print("zuppppppp")
     #print(type(data['city']))
 

@@ -85,8 +85,8 @@
         <div><font size="10">Nature</font></div>
         <div>
           <form name="registrationForm">
-            <input type="range" name="ageInputName1" id="nature" value="24" min="1" max="100" oninput="ageOutputId1.value = nature.value">
-            <output name="ageOutputName1" id="ageOutputId1">24</output>
+            <input type="range" name="ageInputName1" id="nature" value="0" min="-10" max="10" oninput="ageOutputId1.value = nature.value">
+            <output name="ageOutputName1" id="ageOutputId1">0</output>
           </form>
         </div>
       </div>
@@ -95,8 +95,8 @@
         <div><font size="10">History</font></div>
         <div>
           <form name="registrationForm">
-            <input type="range" name="ageInputName2" id="history" value="24" min="1" max="100" oninput="ageOutputId2.value = history.value">
-            <output name="ageOutputName2" id="ageOutputId2">24</output>
+            <input type="range" name="ageInputName2" id="history" value="10" min="-10" max="10" oninput="ageOutputId2.value = history.value">
+            <output name="ageOutputName2" id="ageOutputId2">0</output>
           </form>
         </div>
       </div>
@@ -106,8 +106,8 @@
         <div><font size="10">Culture</font></div>
         <div>
           <form name="registrationForm">
-            <input type="range" name="ageInputName3" id="culture" value="24" min="1" max="100" oninput="ageOutputId3.value = culture.value">
-            <output name="ageOutputName3" id="ageOutputId3">24</output>
+            <input type="range" name="ageInputName3" id="culture" value="0" min="-10" max="10" oninput="ageOutputId3.value = culture.value">
+            <output name="ageOutputName3" id="ageOutputId3">0</output>
           </form>
         </div>
       </div>
@@ -116,8 +116,8 @@
         <div><font size="10">Life</font></div>
         <div>
           <form name="registrationForm">
-            <input type="range" name="ageInputName4" id="life" value="24" min="1" max="100" oninput="ageOutputId4.value = life.value">
-            <output name="ageOutputName4" id="ageOutputId4">24</output>
+            <input type="range" name="ageInputName4" id="life" value="0" min="-10" max="10" oninput="ageOutputId4.value = life.value">
+            <output name="ageOutputName4" id="ageOutputId4">0</output>
           </form>
         </div>
       </div>
@@ -155,7 +155,7 @@
 
   function cool(){
     let features = {
-      'nature':+$('#ageOutputId1').val(),
+      'nature':+$('#nature').val(),
       'history':+$('#history').val(),
       'culture': +$('#culture').val(),
       'life': +$('#life').val(),
@@ -170,10 +170,8 @@
       async: true,
       data: JSON.stringify(features),
       success: (result) => {
-        $('#hard_predict').html(result['prediction'] ? 'Success!' : 'You are a total failure!!!');
-        $('#soft_predict').html(result['prob_succeed']);
-        $('#nature_res').html(result['nature']);
-        $('#rec_res').html(result['recommendations'])
+        // $('#hard_predict').html(result['prediction'] ? 'Success!' : 'You are a total failure!!!');
+        $('#rec_res').html(result['actual_route'])
       },
       error: (result) => {
         alert('Get your shit toogether man!');

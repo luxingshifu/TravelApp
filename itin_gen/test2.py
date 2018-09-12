@@ -72,7 +72,12 @@ class Path:
         return travel_cost
 
     def score(self, B1=1, B2=2):
-        score = self.highlight_bonus*self.similarity*self.visit_length - self.travel_time() - self.travel_cost()
+        # print(f'type highlight_bonus is {type(self.highlight_bonus)})')
+        # print(f'type similarity is {type(self.similarity)})')
+        # print(f'type visit length is {type(self.visit_length)})')
+        # print(f'type travel time is {type(self.travel_time())})')
+        # print(f'type travel cost is {type(self.travel_cost())})')
+        score = float(self.highlight_bonus)*float(self.similarity)*float(self.visit_length) - float(self.travel_time()) - float(self.travel_cost())
         return score
 
     def __repr__(self):

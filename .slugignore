@@ -3,4 +3,6 @@ processed_data.pkl
 *ipynb
 /data
 nltk.txt
-/model
+/model/model.pl
+/model/model3.pkl
+/model/processed_data.pkl
