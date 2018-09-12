@@ -186,7 +186,7 @@ tr:hover {background-color: #fff5f5;}
         // $('#hard_predict').html(result['prediction'] ? 'Success!' : 'You are a total failure!!!');
         console.log(result)
         msg = "<table>" + result.actual_route.map( (s) => '<tr><td>' + s + '</td></tr>').join('\n') + '\n</table>'
-        ms2= <table>{% for x in result.actual_route %}<tr> {{x}} </tr> {% endfor %}</table>
+        // ms2= <table>{% for x in result.actual_route %}<tr> {{x}} </tr> {% endfor %}</table>
 
         $('#rec_res').html(msg)
 
