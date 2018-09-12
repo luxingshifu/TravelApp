@@ -31,6 +31,8 @@ file1 = 'full_place_list.pkl'
 file2 = 'model.pkl'
 file3 = 'processed_data.pkl'
 
+torch.set_num_threads(1)
+
 # blob1 = bucket.blob(os.path.basename(file1))
 # blob1.download_to_filename('full_place_list.pkl')
 #
