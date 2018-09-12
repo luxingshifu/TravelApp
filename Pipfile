@@ -3,13 +3,12 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 
 [packages]
-
 gunicorn = "*"
 requests = "*"
 flask = "*"
 numpy = "*"
 torch = {file = "http://download.pytorch.org/whl/cpu/torch-0.4.1-cp36-cp36m-linux_x86_64.whl"}
-
+pandas = "*"
 
 [requires]
 python_version = "3.6"

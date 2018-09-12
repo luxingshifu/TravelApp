@@ -20,7 +20,9 @@ def make_prediction(features):
     life=features['life']
 
     preferences=[nat,hist,cult,life]
+    print("Light the fire with torch")
     recs=recommender.preferences_to_placescores(preferences,num_results=20,weight=.01)
+    print("burn")
     # rec_list=recs
 
     progress, routes, best_route, names=api_itin.itin_generator(recs,alpha=.8,max_iterations=1000)

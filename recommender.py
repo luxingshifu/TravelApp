@@ -31,6 +31,8 @@ file1 = 'full_place_list.pkl'
 file2 = 'model.pkl'
 file3 = 'processed_data.pkl'
 
+torch.set_num_threads(1)
+
 # blob1 = bucket.blob(os.path.basename(file1))
 # blob1.download_to_filename('full_place_list.pkl')
 #
@@ -83,11 +85,16 @@ def preferences_to_placescores(preferences,weight,num_results=10,full_profiles=f
 
     #Idea, add result of neural network to a feature based recommender.
 
+    torch.set_num_threads(1)
+
     s=1/(np.exp(-2*weight)+1)
     new_user_preferences=np.array(preferences)
     initialization=np.zeros(len(full_profiles))
     new_user=np.concatenate((new_user_preferences,initialization),axis=0)
+
+    print("Drumroll for the prediction", flush = True)
     predictions_raw=model.predict(new_user)
+    print("....and done", flush = True)
     predictions=predictions_raw.detach().numpy()[len(preferences):]
     predictions_norm=(10/max(predictions))*predictions
     offset=np.array([sum(new_user_preferences*x) for x in full_profiles])
