@@ -85,11 +85,7 @@ def preferences_to_placescores(preferences,weight,num_results=10,full_profiles=f
 
     #Idea, add result of neural network to a feature based recommender.
 
-    print("Setting the number of threads", flush=True)
     torch.set_num_threads(1)
-    print("Number of threads set")
-    print(f"The number of threads are {torch.get_num_threads()}", flush=True)
-    print("Time to do real work.", flush=True)
 
     s=1/(np.exp(-2*weight)+1)
     new_user_preferences=np.array(preferences)
