@@ -1,6 +1,7 @@
 from flask import Flask, abort, render_template, jsonify, request
 from api import make_prediction
-from api_itin import itin_generator
+# import itin_gen.api_itin as api_itin
+# from api_itin import itin_generator
 
 app=Flask('TravelApp')
 
