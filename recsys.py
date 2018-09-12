@@ -100,7 +100,9 @@ class recsys(nn.Module):
 
 
     def predict(self,x):
+        print("About to impute", flush = True)
         x=self.imputer(x)
+        print("Imputed", flush=True)
         return self.forward(x)
 
     def fit(self,ratings=None):
