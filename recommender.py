@@ -62,7 +62,11 @@ with open('model/full_place_list.pickle','rb') as f:
 model=recsys.recsys(latent_features=10,sites=len(full_place_list)+4)
 model.load_state_dict(torch.load('model/model2'))
 
-things_to_remove=pkl.load(open('things_to_remove.pkl','rb'))
+things_to_remove=pkl.load(open('things_to_remove.pickle','rb'))
+
+site_index=pkl.load(open('real_data_files/site_index.pickle','rb'))
+
+
 #Just need full_profiles
 
 def condition(x):
@@ -78,6 +82,11 @@ def condition(x):
 
 def condition_vivien(x):
     return x not in things_to_remove
+
+def site_check(x):
+    return x in site_index
+
+
 
 
 
@@ -102,5 +111,6 @@ def preferences_to_placescores(preferences,weight,num_results=10,full_profiles=f
     final_predictions=(1-s)*predictions_norm+s*(10/max(offset))*offset
     place_prediction=sorted(list(enumerate(final_predictions)),key=lambda x: x[1],reverse=True)
     potentials=[[full_place_list[x[0]],x[1]] for x in place_prediction]
-    filtered=list(filter(lambda x: condition(x[0])  and condition_vivien(x[0]),potentials))[:num_results]
+    # filtered=list(filter(lambda x: condition(x[0])  and condition_vivien(x[0]),potentials))[:num_results]
+    filtered = list(filter(lambda x: site_check(x[0]),potentials))[:num_results]
     return filtered
