@@ -16,14 +16,14 @@ def do_prediction():
 
     response=make_prediction(data)
 
-    result = {'actual_route':'hello'}
+    # result = {'actual_route':'hello'}
 
     #print("zuppppppp")
     #print(type(data['city']))
 
 
-    # return jsonify(response)
-    return jsonify(result)
+    return jsonify(response)
+    # return jsonify(result)
 
 
 @app.route('/')
