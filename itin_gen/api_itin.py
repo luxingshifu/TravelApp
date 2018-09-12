@@ -2,7 +2,6 @@ def itin_generator(user_preferences, budget=2000, ambition = [9, 17], temperatur
 
     import pandas as pd
     import numpy as np
-    import matplotlib.pyplot as plt
     import math
 
     # from data_gen import get_fake_data
