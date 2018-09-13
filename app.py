@@ -24,6 +24,10 @@ app=Flask('TravelApp')
 #     print("yep, that was the response", flush=True)
 #     return jsonify(response)
 
+@app.route('/trap', methods=['GET'])
+def function():
+    return render_template('index2.html')
+
 
 @app.route('/',methods=['GET','POST'])
 def index():

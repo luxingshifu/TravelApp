@@ -1,4 +1,4 @@
-def itin_generator(user_preferences, budget=20000, ambition = [3, 22], temperature=100, stopping_temperature=0.00000001, max_iterations=10000, alpha=0.995):
+def itin_generator(user_preferences, budget=20000, ambition = [7, 20], temperature=100, stopping_temperature=0.00000001, max_iterations=10000, alpha=0.995):
 
     import pandas as pd
     import numpy as np

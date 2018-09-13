@@ -60,31 +60,24 @@ tr:hover {background-color: #f5f5f5;}
   <div class="row">
     <div class="col-sm-6">
 
-
-    <form action="/" METHOD="POST">
-
+    <form action="/trap" METHOD="POST">
       <div><font size="10">Nature</font></div>
       <input type="range" name="nature" id="nature" value = "0" min="-10" max="10" oninput="ageOutputId1.value = nature.value">
       <output name="ageOutputName1" id="ageOutputId1">0</output>
-
       <div><font size="10">History</font></div>
       <input type="range" name="history" id="history" value="0" min="-10" max="10" oninput="ageOutputId2.value = history.value">
       <output name="ageOutputName2" id="ageOutputId2">0</output>
-
       <div><font size="10">Culture</font></div>
       <input type="range" name="culture" id="culture" value="0" min="-10" max="10" oninput="ageOutputId3.value = culture.value">
       <output name="ageOutputName3" id="ageOutputId3">0</output>
-
       <div><font size="10">Life</font></div>
       <input type="range" name="life" id="life" value="0" min="-10" max="10" oninput="ageOutputId4.value = life.value">
       <output name="ageOutputName4" id="ageOutputId4">0</output>
-
        <p><input type = "submit" value = "Get Recommendations" /></p>
     </form>
 
     </div>
   </div>
-
 </div>
 
 
@@ -97,7 +90,7 @@ tr:hover {background-color: #f5f5f5;}
 {% endif %}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script> -->
+    <script src="/js/bootstrap.min.js"></script>
 
 
 </body>
