@@ -10,7 +10,7 @@ app=Flask('TravelApp')
 
 @app.route('/predict',methods=['GET','POST'])
 def do_prediction():
-    if not request.json:
+    if not request.form:
         abort(400)
 
     data=request.form
@@ -44,7 +44,7 @@ def do_prediction():
 def index():
 
     if request.method == 'POST':
-        data=request.json
+        data=request.form
         print('Here is that data you requested!',flush=True)
         print(data)
         print('Hope you enjoyed your data',flush=True)
