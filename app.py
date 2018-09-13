@@ -48,8 +48,12 @@ def index():
         print('Here is that data you requested!',flush=True)
         print(data)
         print('Hope you enjoyed your data',flush=True)
+        print('And here is data!',flush=True)
+        gd=[data['Nature_key'],data['History_key'],data['Culture_key'],data['Life_key']]
+        print(gd,flush=True)
+        print('that was naaattttuuuuurrreee',flush=True)
         try:
-            response=make_prediction(data)
+            response=make_prediction(gd)
         except:
             response={'actual_route':'who knows'}
         result = response['actual_route']

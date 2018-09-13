@@ -95,7 +95,26 @@ tr:hover {background-color: #fff5f5;}
 
     <form action="/" METHOD="POST">
 
-      <div class="form-group">
+      <div><font size="10">Nature</font></div>
+      <input type="range" name="Nature_key" id="nature" value="0" min="-10" max="10" oninput="ageOutputId1.value = nature.value">
+      <output name="ageOutputName1" id="ageOutputId1">0</output>
+
+      <div><font size="10">History</font></div>
+      <input type="range" name="History_key" id="history" value="0" min="-10" max="10" oninput="ageOutputId2.value = history.value">
+      <output name="ageOutputName2" id="ageOutputId2">0</output>
+
+      <div><font size="10">Culture</font></div>
+      <input type="range" name="Culture_key" id="culture" value="0" min="-10" max="10" oninput="ageOutputId3.value = culture.value">
+      <output name="ageOutputName3" id="ageOutputId3">0</output>
+
+      <div><font size="10">Life</font></div>
+      <input type="range" name="Life_key" id="life" value="0" min="-10" max="10" oninput="ageOutputId4.value = life.value">
+      <output name="ageOutputName4" id="ageOutputId4">0</output>
+
+       <p><input type = "submit" value = "submit" /></p>
+    </form>
+
+      <!-- <div class="form-group">
         <div><font size="10">Nature</font></div>
         <div>
           <form name="registrationForm">
@@ -136,8 +155,8 @@ tr:hover {background-color: #fff5f5;}
         </div>
       </div>
 
-      <type="submit" value="submit">
-    </form>
+      <type="submit" value="submit"> -->
+
 
 
 
