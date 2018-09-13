@@ -29,7 +29,7 @@
 
 <style>
   div.jumbotron
-  {color:pink;
+  {color:blue;
    background-color: green}
 
    table {
@@ -93,6 +93,7 @@ tr:hover {background-color: #fff5f5;}
     <div class="col-sm-6">
 
 
+    <form action="/" METHOD="POST">
 
       <div class="form-group">
         <div><font size="10">Nature</font></div>
@@ -108,7 +109,7 @@ tr:hover {background-color: #fff5f5;}
         <div><font size="10">History</font></div>
         <div>
           <form name="registrationForm">
-            <input type="range" name="ageInputName2" id="history" value="10" min="-10" max="10" oninput="ageOutputId2.value = history.value">
+            <input type="range" name="ageInputName2" id="history" value="0" min="-10" max="10" oninput="ageOutputId2.value = history.value">
             <output name="ageOutputName2" id="ageOutputId2">0</output>
           </form>
         </div>
@@ -135,24 +136,34 @@ tr:hover {background-color: #fff5f5;}
         </div>
       </div>
 
+      <button type="submit" class="btn btn-default">Get Recommendations!</button>
+    </form>
+
+
+
     </div>
   </div>
 
 
-
-
-
-  <div>
+  <!-- <div>
     <button id = 'submit'><font size="12">Get recommendations</font></button>
-  </div>
+  </div> -->
+
 </div>
 
 
+ {% if result is defined %}
+ <table>
+   {% for x in result %}
+    <tr><td>{{x}}</td></tr>
+   {% endfor %}
+ </table>
+{% endif %}
 
 
-<table>
+<!-- <table>
   <tr><td><font size="12" id='rec_res'></td></tr>
-</table>
+</table> -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script> -->
@@ -178,29 +189,24 @@ tr:hover {background-color: #fff5f5;}
     $.ajax({
       type: "POST",
       contentType: "application/json; charset=utf-8",
-      url: "/predict",  // Replace with URL of POST handler
+      //url: "/predict",  // Replace with URL of POST handler
+      url:"/newroute",
       dataType: "json",
       async: true,
       data: JSON.stringify(features),
-      success: (result) => {
-        // $('#hard_predict').html(result['prediction'] ? 'Success!' : 'You are a total failure!!!');
-        console.log(result)
-        msg = "<table>" + result.actual_route.map( (s) => '<tr><td>' + s + '</td></tr>').join('\n') + '\n</table>'
-        // ms2= <table>{% for x in result.actual_route %}<tr> {{x}} </tr> {% endfor %}</table>
-
-        $('#rec_res').html(msg)
-
-
-
-
-      },
-      error: (result) => {
-        alert('Get your shit toogether man!');
-      }
+      // success: (result) => {
+      //   // $('#hard_predict').html(result['prediction'] ? 'Success!' : 'You are a total failure!!!');
+      //   console.log(result)
+      //   // msg = "<table>" + result.actual_route.map( (s) => '<tr><td>' + s + '</td></tr>').join('\n') + '\n</table>'
+      //
+      //   // $('#rec_res').html(msg)
+      // },
+      // error: (result) => {
+      //   alert('Get your shit toogether man!');
+      // }
     })
-
-
   }
+
   </script>
 
 
