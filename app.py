@@ -13,7 +13,7 @@ def do_prediction():
     if not request.json:
         abort(400)
 
-    data=request.json
+    data=request.form
     print("Here is our lovely data",flush =True)
     print(data)
 
