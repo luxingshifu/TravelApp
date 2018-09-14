@@ -17,7 +17,7 @@ def make_prediction(features):
     recs=recommender.preferences_to_placescores(preferences,num_results=20,weight=.01)
     print("burn")
 
-    progress, routes, best_route, names=api_itin.itin_generator(recs,alpha=.8,max_iterations=1000)
+    progress, routes, best_route, names=api_itin.itin_generator(recs,alpha=.8,ambition=[3,22],max_iterations=1000)
 
     actual_route=[names[val] for val in routes[best_route][0]]
 

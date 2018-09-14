@@ -25,6 +25,17 @@
 
 <body>
 
+  {% if result is defined %}
+  <table>
+    {% for x in result %}
+     <tr><td>{{x}}</td></tr>
+    {% endfor %}
+  </table>
+ {% endif %}
+
+
+
+
 To leave this awful page, please click on the bright shiny button I've provided....
 
 <form action = '/' METHOD = "GET">
