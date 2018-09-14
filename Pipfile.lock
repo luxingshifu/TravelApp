@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "548261c702ac3bddd6dc7845b7990b77fc7efb3283f26ab797245a060db6a326"
+            "sha256": "df1b23b79404e1175ae914d655bf8441f8c2ce392a43c6817461bc4fb6e0f19e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -161,6 +161,12 @@
                 "sha256:832dc0e10feb1aa2c68dcc57dbb658f1c7e65b9b61af69048abc87a2db00a0eb"
             ],
             "version": "==1.11.0"
+        },
+        "sqlalchemy": {
+            "hashes": [
+                "sha256:ef6569ad403520ee13e180e1bfd6ed71a0254192a934ec1dbd3dbf48f4aa9524"
+            ],
+            "version": "==1.2.11"
         },
         "torch": {
             "file": "http://download.pytorch.org/whl/cpu/torch-0.4.1-cp36-cp36m-linux_x86_64.whl",
