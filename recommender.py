@@ -61,7 +61,9 @@ with open('good_data/place_profiles.pkl','rb') as f:
 
 #note, the +4 is due to the length of prefs.
 
-model=recsys.recsys(latent_features=10,sites=len(full_place_list)+4)
+#Note, need to automatically update latent_feature size!
+
+model=recsys.recsys(latent_features=12,sites=len(full_place_list)+4)
 model.load_state_dict(torch.load('model/model2'))
 
 things_to_remove=pkl.load(open('good_data/things_to_remove.pkl','rb'))
@@ -107,10 +109,14 @@ def preferences_to_placescores(preferences,weight,num_results=10,full_profiles=f
     predictions_raw=model.predict(new_user)
     print("....and done", flush = True)
     predictions=predictions_raw.detach().numpy()[len(preferences):]
-    predictions_norm=(10/max(predictions))*predictions
+
+    predictions_norm=(10/max(np.abs(predictions)))*predictions
     offset=np.array([sum(new_user_preferences*x) for x in full_profiles])
-    offset_norm=(10/max(offset))*offset
-    final_predictions=(1-s)*predictions_norm+s*(10/max(offset))*offset
+    offset_norm=(10/max(np.abs(offset)))*offset
+    combo_predictions=(1-s)*predictions_norm+s*offset_norm
+    big=max(combo_predictions)
+    small=min(combo_predictions)
+    final_predictions=(20/(big-small))*(combo_predictions-(big+small)/2)
     place_prediction=sorted(list(enumerate(final_predictions)),key=lambda x: x[1],reverse=True)
     potentials=[[full_place_list[x[0]],x[1]] for x in place_prediction]
     # filtered=list(filter(lambda x: condition(x[0])  and condition_vivien(x[0]),potentials))[:num_results]

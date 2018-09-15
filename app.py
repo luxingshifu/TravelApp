@@ -7,11 +7,11 @@ import pickle as pkl
 from werkzeug.datastructures import ImmutableMultiDict
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey
 
-DATABASE_URL = os.environ['DATABASE_URL']
+# DATABASE_URL = os.environ['DATABASE_URL']
 
 metadata=MetaData()
-# engine=create_engine('postgresql://localhost/postgres')
-engine=create_engine(DATABASE_URL)
+engine=create_engine('postgresql://localhost/postgres')
+# engine=create_engine(DATABASE_URL)
 conn=engine.connect()
 metadata.reflect(bind=engine)
 user_table=metadata.tables['user_data']

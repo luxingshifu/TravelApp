@@ -19,7 +19,7 @@ def create_recsys(matrix,dropout=.1,latent_features=4,max_iter=100,lr=.001,epoch
 class recsys(nn.Module):
 
 
-    def __init__(self,ratings=None,users=100,sites=1000,latent_features=10,\
+    def __init__(self,ratings=None,users=100,sites=1000,latent_features=12,\
                  dropout=.1,max_iter=10,epochs=4,temperature=1,lr=.01,batch_size=500,\
                  losses=None):
 
@@ -118,20 +118,16 @@ class recsys(nn.Module):
         try:
             if ratings==None:
                 ratings=self.ratings
-
         except:
             pass
 
         ratings_clean=self.imputer(ratings)
-
-
-
         loss_function=nn.MSELoss()
 
 
 
 
-        f= open('data/losses','w+')
+        f= open('raw_data/losses','w+')
 
         losses=[]
 
@@ -158,4 +154,5 @@ class recsys(nn.Module):
 
                 optimizer.step()
             self.losses=losses
+            self.lr=.75*self.lr
         f.close()
