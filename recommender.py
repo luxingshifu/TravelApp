@@ -51,10 +51,10 @@ torch.set_num_threads(1)
 # with open('model/processed_data.pkl','rb') as f:
 #     data=pkl.load(f)
 
-with open('model/place_profiles.pickle','rb') as f:
+with open('data/place_profiles.pkl','rb') as f:
     full_profiles=pkl.load(f)
 
-with open('model/full_place_list.pickle','rb') as f:
+with open('data/full_place_list.pkl','rb') as f:
     full_place_list=pkl.load(f)
 
 #note, the +4 is due to the length of prefs.
@@ -62,9 +62,9 @@ with open('model/full_place_list.pickle','rb') as f:
 model=recsys.recsys(latent_features=10,sites=len(full_place_list)+4)
 model.load_state_dict(torch.load('model/model2'))
 
-things_to_remove=pkl.load(open('things_to_remove.pickle','rb'))
+things_to_remove=pkl.load(open('data/things_to_remove.pkl','rb'))
 
-site_index=pkl.load(open('real_data_files/site_index.pickle','rb'))
+site_index=pkl.load(open('data/site_index.pkl','rb'))
 
 
 #Just need full_profiles
