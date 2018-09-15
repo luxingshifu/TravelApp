@@ -51,11 +51,13 @@ torch.set_num_threads(1)
 # with open('model/processed_data.pkl','rb') as f:
 #     data=pkl.load(f)
 
-with open('data/place_profiles.pkl','rb') as f:
-    full_profiles=pkl.load(f)
+
 
 with open('data/full_place_list.pkl','rb') as f:
     full_place_list=pkl.load(f)
+
+with open('data/place_profiles.pkl','rb') as f:
+    full_profiles=pkl.load(f)
 
 #note, the +4 is due to the length of prefs.
 
