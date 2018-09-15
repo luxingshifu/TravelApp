@@ -1,7 +1,7 @@
-*file_*
+
 processed_data.pkl
 *ipynb
-/data
+/raw_data
 nltk.txt
 /model/model.pl
 /model/model3.pkl
