@@ -9,6 +9,8 @@ flask = "*"
 numpy = "*"
 torch = {file = "http://download.pytorch.org/whl/cpu/torch-0.4.1-cp36-cp36m-linux_x86_64.whl"}
 pandas = "*"
+sqlalchemy = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.6"
