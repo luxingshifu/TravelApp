@@ -26,11 +26,20 @@
 <body>
 
   {% if result is defined %}
-  <table>
+  <div style="overflow-x:auto;">
+  <table width = "600" align="center">
+    <tr>
+      <th> Attraction </th>
+      <th> Score </th>
+    </tr>
     {% for x in result %}
-     <tr><td>{{x}}</td></tr>
+     <tr>
+       <td>{{x[0]}}</td>
+       <td>{{x[1]}}</td>
+     </tr>
     {% endfor %}
   </table>
+</div>
  {% endif %}
 
 

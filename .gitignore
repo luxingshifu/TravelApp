@@ -4,6 +4,7 @@ raw_data/
 /model/model3
 /model/model.pkl
 .env
+tmp_data/
 /model/proccessed_data.pkl
 /model/processed_data.pickle
 __pycache__/

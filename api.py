@@ -1,7 +1,7 @@
 # Kickstarter!!!!!!!!!!!!!!!!!!
 import numpy as np
 import pickle
-import recommender
+import recommender_v2
 import itin_gen.api_itin as api_itin
 
 
@@ -14,7 +14,7 @@ def make_prediction(features):
 
     preferences=[nat,hist,cult,life]
     print("Light the fire with torch")
-    recs=recommender.preferences_to_placescores(preferences,num_results=200,weight=.01)
+    recs=recommender_v2.preferences_to_placescores(preferences,num_results=200,weight=.01)
     print("burn")
 
     progress, routes, best_route, names=api_itin.itin_generator(recs,alpha=.8,ambition=[3,22],max_iterations=1000)
