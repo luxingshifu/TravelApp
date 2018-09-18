@@ -3,12 +3,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>TravelApp</title>
     <!-- <link href="/css/bootstrap.min.css" rel="stylesheet"> -->
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-latest.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
 
@@ -20,18 +21,21 @@
 
 
 <!-- {background-image: url("/static/images/cat-card-samples_x1.png"); -->
+
+
+
+
+
 <style>
+
+
   body
-  {background-color:orange;}
-</style>
+  {background-color:F6F6E9;}
 
-
-
-
-<style>
   div.jumbotron
-  {color:blue;
-   background-color: green}
+  {color:white;
+   background-color: 1185DF;
+    font-size: 100}
 
    table {
      font-size: larger;
@@ -44,46 +48,97 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 tr:hover {background-color: #f5f5f5;}
 </style>
 
+<style>
+</style>
+
+
+
 
 
 <body>
 
-
 <div class="jumbotron">
 	<div class="container">
-		<h1>Awesome Travel App</h1>
-		<!-- <img width="40%" src='/static/images/dims.jpeg' /> -->
+		<h1><font size="100"> Awesome Travel App</font>  </h1>
 	</div>
 </div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-6">
 
-    <form action="/trap" METHOD="POST">
-      <div><font size="10">Nature</font></div>
-      <input type="range" name="nature" id="nature" value = "0" min="-10" max="10" oninput="ageOutputId1.value = nature.value">
-      <output name="ageOutputName1" id="ageOutputId1">0</output>
-      <div><font size="10">History</font></div>
-      <input type="range" name="history" id="history" value="0" min="-10" max="10" oninput="ageOutputId2.value = history.value">
-      <output name="ageOutputName2" id="ageOutputId2">0</output>
-      <div><font size="10">Culture</font></div>
-      <input type="range" name="culture" id="culture" value="0" min="-10" max="10" oninput="ageOutputId3.value = culture.value">
-      <output name="ageOutputName3" id="ageOutputId3">0</output>
-      <div><font size="10">Life</font></div>
-      <input type="range" name="life" id="life" value="0" min="-10" max="10" oninput="ageOutputId4.value = life.value">
-      <output name="ageOutputName4" id="ageOutputId4">0</output>
-       <p><input type = "submit" value = "Get Recommendations" /></p>
-    </form>
+<form action="/trap" METHOD="POST">
+<table id = "customer_info" align = "center">
+  <tr>
+  <td>
+    <!-- <div class="container"> -->
+      <div class="row">
+        <div class="col-sm-6">
+        <!-- <form action="/trap" METHOD="POST"> -->
+          <div><font size="3"> Name </font></div><br>
+          <input type="text" name="name" id="name" ><br>
+          <table>
+            <tr>
+              <td>
+                <div><font size="3"> Start Time</font></div><br>
+                  <input type="datetime-local" name="bdaytime" id="starttime">
+              </td>
+              <td>
+                <div><font size="3"> Finish Time</font></div><br>
+                  <input type="datetime-local" name="edaytime" id="endtime">
+              </td>
+            </tr>
+            <!-- <tr>
+              <input type="datetime-local" name="bdaytime">
+            </tr> -->
+          </table>
 
+
+
+          <!-- <div><font size="3">Life</font></div>
+          <input type="range" name="life2" id="life2" value="{{result['life']}}" min="-10" max="10" oninput="nageOutputId4.value = life.value2">
+          <output name="nageOutputName4" id="nageOutputId4">{{result['life']}}</output> -->
+
+        </div>
+      </div>
+    <!-- </div> -->
+  </td>
+
+
+
+
+
+  <td>
+  <!-- <div class="container"> -->
+    <div class="row">
+      <div class="col-sm-6">
+      <!-- <form action="/trap" METHOD="POST"> -->
+        <div><font size="2">Nature</font></div>
+        <input type="range" name="nature" id="nature" value = "{{result['nature']}}" min="-10" max="10" oninput="ageOutputId1.value = nature.value">
+        <output name="ageOutputName1" id="ageOutputId1">{{result['nature']}}</output>
+        <div><font size="2">History</font></div>
+        <input type="range" name="history" id="history" value="{{result['history']}}" min="-10" max="10" oninput="ageOutputId2.value = history.value">
+        <output name="ageOutputName2" id="ageOutputId2">{{result['history']}}</output>
+        <div><font size="2">Culture</font></div>
+        <input type="range" name="culture" id="culture" value="{{result['culture']}}" min="-10" max="10" oninput="ageOutputId3.value = culture.value">
+        <output name="ageOutputName3" id="ageOutputId3">{{result['culture']}}</output>
+        <div><font size="2">Life</font></div>
+        <input type="range" name="life" id="life" value="{{result['life']}}" min="-10" max="10" oninput="ageOutputId4.value = life.value">
+        <output name="ageOutputName4" id="ageOutputId4">{{result['life']}}</output>
+         <!-- <p><input type = "submit" value = "Get Recommendations" /></p>
+      </form> -->
+      </div>
     </div>
-  </div>
-</div>
+  <!-- </div> -->
+  </td>
 
+  </tr>
+</table>
+<p><input type = "submit" value = "Get Recommendations" /></p>
+</form>
 
- {% if result is defined %}
+<!-- route=result['route'] -->
+
+ {% if result['route'] is defined %}
  <table>
-   {% for x in result %}
+   {% for x in result['route'] %}
     <tr><td>{{x}}</td></tr>
    {% endfor %}
  </table>

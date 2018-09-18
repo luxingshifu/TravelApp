@@ -5,7 +5,7 @@ import os
 import math
 from collections import Counter
 import random
-import recsys
+import recsys_v2
 import torch
 import torch.nn as nn
 
@@ -63,14 +63,16 @@ with open('good_data/place_profiles_light.pkl','rb') as f:
 
 #Note, need to automatically update latent_feature size!
 
-model=recsys.recsys(latent_features=12,sites=len(full_place_list)+4)
+site_index=pkl.load(open('good_data/site_index.pkl','rb'))
+def site_check(x):
+    return x in site_index
+
+model=recsys_v2.recsys(latent_features=12,sites=len(site_index)+4)
 model.load_state_dict(torch.load('model/model_cdf_light'))
 
 # things_to_remove=pkl.load(open('good_data/things_to_remove.pkl','rb'))
 
-site_index=pkl.load(open('good_data/site_index.pkl','rb'))
-def site_check(x):
-    return x in site_index
+
 
 
 
@@ -90,7 +92,7 @@ def condition(x):
 def site_check(x):
     return x in site_index
 
-mask=[site_check(x) for x in full_place_list]
+# mask=[site_check(x) for x in full_place_list]
 #
 # def condition_vivien(x):
 #     return x not in things_to_remove
@@ -120,9 +122,9 @@ def preferences_to_placescores(preferences,weight,num_results=10,full_profiles=f
     predictions=predictions_raw.detach().numpy()[len(preferences):]
     offset=np.array([sum(new_user_preferences*x) for x in full_profiles])
 
-    predictions_filtered=rescale(predictions[mask])
-    offset_filtered=rescale(offset[mask])
-    sites_filtered=dict(enumerate(np.array(full_place_list)[mask]))
+    predictions_filtered=rescale(predictions)
+    offset_filtered=rescale(offset)
+    sites_filtered=dict(enumerate(np.array(site_index)))
 
 
     # predictions_norm=(10/max(np.abs(predictions)))*predictions
