@@ -7,10 +7,16 @@ import itin_gen.api_itin as api_itin
 
 def make_prediction(features):
 
-    nat=features['nature']
-    hist=features['history']
-    cult=features['culture']
-    life=features['life']
+    nat=float(features['nature'])
+    hist=float(features['history'])
+    cult=float(features['culture'])
+    life=float(features['life'])
+    # st=features['starttime']
+    # en=features['endtime']
+    # print("****************************************************",flush=True)
+    # print(type(start),flush=True)
+    # print(start,flush=True)
+    # print("*****************************************************",flush=True)
 
     preferences=[nat,hist,cult,life]
     print("Light the fire with torch")

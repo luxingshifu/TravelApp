@@ -5,7 +5,7 @@ import os
 import math
 from collections import Counter
 import random
-import recsys
+import recsys_v2
 import torch
 import torch.nn as nn
 
@@ -67,7 +67,7 @@ site_index=pkl.load(open('good_data/site_index.pkl','rb'))
 def site_check(x):
     return x in site_index
 
-model=recsys.recsys(latent_features=12,sites=len(site_index)+4)
+model=recsys_v2.recsys(latent_features=12,sites=len(site_index)+4)
 model.load_state_dict(torch.load('model/model_cdf_light'))
 
 # things_to_remove=pkl.load(open('good_data/things_to_remove.pkl','rb'))

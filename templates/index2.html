@@ -18,16 +18,46 @@
     <![endif]-->
   </head>
 
-  <style>
+<style>
   body
-  {background-color:green;}
+  {background-color:F6F6E9;}
 </style>
+
+
+<style>
+#scores {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 60%;
+}
+
+#scores td, #scores th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#scores tr:nth-child(even){background-color: #f2f2f2;}
+
+#scores tr:hover {background-color: #ddd;}
+
+#scores th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
+
+
+
+
 
 <body>
 
   {% if result is defined %}
   <div style="overflow-x:auto;">
-  <table width = "600" align="center">
+  <table id="scores" width = "600" align="center">
     <tr>
       <th> Attraction </th>
       <th> Score </th>
