@@ -16,19 +16,6 @@
         margin: 0;
         padding: 0;
       }
-      #floating-panel {
-        position: absolute;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
       #warnings-panel {
         width: 100%;
         height:10%;
@@ -36,28 +23,18 @@
       }
     </style>
   </head>
-  <body>
-    <div id='results-dict'>
-      <p hi>{{results['start']['location']|safe}}</p>
 
-    </div>
-    <div id="floating-panel">
-    <b>Start: </b>
-    <select id='start'>
-      <option value="penn station, new york, ny">Penn Station</option>
-      <option value="grand central station, new york, ny">Grand Central Station</option>
-      <option value="{'lat': 37.7924187, 'lng': -122.4106758}">Trial</option>
-    </select>
-    <b>End: </b>
-    <select id="end">
-      <option value="260 Broadway New York NY 10007">City Hall</option>
-      <option value="W 49th St & 5th Ave, New York, NY 10020">Rockefeller Center</option>
-    </select>
-    </div>
-    <div id = "random"></div>
+  <body>
+
     <div id="map"></div>
     &nbsp;
-    <div id="warnings-panel"></div>
+    <!-- <div id="warnings-panel"></div> -->
+    <form action = '/' METHOD = "GET">
+    <p><input type = "submit" value = "Get Me Out of Here!!!" /></p>
+    </form>
+
+    <div> {{results['start']['location']|safe}} </div>
+
     <script>
       function initMap() {
         var markerArray = [];
@@ -142,5 +119,6 @@
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-9ZI7M3DneS6lPAZAItAlnNPZ5TpbgdU&callback=initMap">
     </script>
+
   </body>
   </html>

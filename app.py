@@ -3,15 +3,20 @@ from api import make_prediction
 import pandas as pd
 import os
 import pickle as pkl
+from flask_googlemaps import GoogleMaps, Map
 # from boto.s3.connection import S3Connection
 from werkzeug.datastructures import ImmutableMultiDict
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey
+from get_route_geolocations import get_route_geolocations
 
-DATABASE_URL = os.environ['DATABASE_URL']
+dict_directions = {}
+
+
+# DATABASE_URL = os.environ['DATABASE_URL']
 
 metadata=MetaData()
-# engine=create_engine('postgresql://localhost/postgres')
-engine=create_engine(DATABASE_URL)
+engine=create_engine('postgresql://localhost/postgres')
+# engine=create_engine(DATABASE_URL)
 conn=engine.connect()
 metadata.reflect(bind=engine)
 user_table=metadata.tables['user_data']
@@ -45,6 +50,8 @@ def clean_string(bla):
 
 app=Flask('TravelApp')
 app.secret_key='asdfjkl;'
+app.config['GOOGLEMAPS_KEY']="AIzaSyB-9ZI7M3DneS6lPAZAItAlnNPZ5TpbgdU"
+GoogleMaps(app)
 
 
 
@@ -53,6 +60,26 @@ def initialize():
     session['start']=True
 
 
+@app.route('/map')
+def fun():
+    # actual_route = ['The Fairmont San Francisco', 'New United States Mint', 'Vinicola de Coppola',
+    # 'Japantown', 'Madame Tussauds San Francisco', 'San Francisco State University',
+    # 'Cellarmaker Brewing Company', 'Autodesk Gallery', 'Sea Lion Center', 'Alta Plaza Park',
+    # 'San Francisco Opera', 'Golden Gate Bridge', 'San Francisco City Hall', 'Louise M. Davies Symphony Hall',
+    # 'Labyrinth of Cultures', 'Sing Fat Co. building', 'Hotel Zelos']
+    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
+    good_route=session['actual_route']
+    print(good_route,flush=True)
+    # print(type(actual_route),flush=True)
+    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
+    new_route=[str(x) for x in good_route]
+    # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
+    dct = get_route_geolocations(good_route)
+    print(dct,flush=True)
+    # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
+
+
+    return render_template('gmaps2.html',results = dct)
 
 
 
@@ -89,6 +116,7 @@ def function():
         response=make_prediction(d)
         # route=response['actual_route']
         result = response['recommendations']
+        session['actual_route']=response['actual_route']
         recs={clean_string(x[0]):x[1] for x in result}
         uservector={**d2,**recs}
         conn.execute(user_table.insert(),[uservector])

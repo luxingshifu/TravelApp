@@ -27,7 +27,8 @@ def make_prediction(features):
 
     result = {
         'recommendations':recs,
-        'actual_route':actual_route}
+        'actual_route':actual_route,
+        'progress':progress}
 
     return result
 
