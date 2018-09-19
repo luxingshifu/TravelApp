@@ -39,17 +39,16 @@
 
    table {
      font-size: larger;
-    border-collapse: collapse;}
+    border-collapse: collapse;
+    border-width=0px}
 
 table, th, td {
-    border: 1px solid black;}
+    border: 0px solid black;}
 
 tr:nth-child(even) {background-color: #f2f2f2;}
 tr:hover {background-color: #f5f5f5;}
 </style>
 
-<style>
-</style>
 
 
 
@@ -65,76 +64,112 @@ tr:hover {background-color: #f5f5f5;}
 
 
 <form action="/trap" METHOD="POST">
-<table id = "customer_info" align = "center">
+<table id = "customer_info" align="center" width="60%">
   <tr>
-  <td>
-    <!-- <div class="container"> -->
+    <td>
+      <table align="center">
+        <tr>
+          <td>
+            <div><font size="3"> Name </font></div><br>
+            <input type="text" name="name" id="name" ><br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table align="center">
+                <tr><td> Start Time</td> <td> End Time </td> </tr>
+                <tr>
+                  <td>
+                    <select type="integer" name="starttime">
+                      <option value="0"> 0:00:00</option>
+                      <option value="1"> 1:00:00</option>
+                      <option value="2"> 2:00:00</option>
+                      <option value="3"> 3:00:00</option>
+                      <option value="4"> 4:00:00</option>
+                      <option value="5"> 5:00:00</option>
+                      <option value="6"> 6:00:00</option>
+                      <option value="7"> 7:00:00</option>
+                      <option value="8"> 8:00:00</option>
+                      <option value="9"> 9:00:00</option>
+                      <option value="10"> 10:00:00</option>
+                      <option value="11"> 11:00:00</option>
+                      <option value="12"> 12:00:00</option>
+                      <option value="13"> 13:00:00</option>
+                      <option value="14"> 14:00:00</option>
+                      <option value="15"> 15:00:00</option>
+                      <option value="16"> 16:00:00</option>
+                      <option value="17"> 17:00:00</option>
+                      <option value="18"> 18:00:00</option>
+                      <option value="19"> 19:00:00</option>
+                      <option value="20"> 20:00:00</option>
+                      <option value="21"> 21:00:00</option>
+                      <option value="22"> 22:00:00</option>
+                      <option value="23"> 23:00:00</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select type="integer" name="finishtime">
+                      <option value="0"> 0:00:00</option>
+                      <option value="1"> 1:00:00</option>
+                      <option value="2"> 2:00:00</option>
+                      <option value="3"> 3:00:00</option>
+                      <option value="4"> 4:00:00</option>
+                      <option value="5"> 5:00:00</option>
+                      <option value="6"> 6:00:00</option>
+                      <option value="7"> 7:00:00</option>
+                      <option value="8"> 8:00:00</option>
+                      <option value="9"> 9:00:00</option>
+                      <option value="10"> 10:00:00</option>
+                      <option value="11"> 11:00:00</option>
+                      <option value="12"> 12:00:00</option>
+                      <option value="13"> 13:00:00</option>
+                      <option value="14"> 14:00:00</option>
+                      <option value="15"> 15:00:00</option>
+                      <option value="16"> 16:00:00</option>
+                      <option value="17"> 17:00:00</option>
+                      <option value="18"> 18:00:00</option>
+                      <option value="19"> 19:00:00</option>
+                      <option value="20"> 20:00:00</option>
+                      <option value="21"> 21:00:00</option>
+                      <option value="22"> 22:00:00</option>
+                      <option value="23"> 23:00:00</option>
+                    </select>
+                    </td>
+                  </tr>
+                </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div><font size="3"> Budget </font></div><br>
+            <input type="integer" name="budget" id="budget" ><br>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td>
       <div class="row">
         <div class="col-sm-6">
-        <!-- <form action="/trap" METHOD="POST"> -->
-          <div><font size="3"> Name </font></div><br>
-          <input type="text" name="name" id="name" ><br>
-          <table>
-            <tr>
-              <td>
-                <div><font size="3"> Start Time</font></div><br>
-                  <input type="datetime-local" name="bdaytime" id="starttime">
-              </td>
-              <td>
-                <div><font size="3"> Finish Time</font></div><br>
-                  <input type="datetime-local" name="edaytime" id="endtime">
-              </td>
-            </tr>
-            <!-- <tr>
-              <input type="datetime-local" name="bdaytime">
-            </tr> -->
-          </table>
-
-
-
-          <!-- <div><font size="3">Life</font></div>
-          <input type="range" name="life2" id="life2" value="{{result['life']}}" min="-10" max="10" oninput="nageOutputId4.value = life.value2">
-          <output name="nageOutputName4" id="nageOutputId4">{{result['life']}}</output> -->
-
+          <div><font size="2">Nature</font></div>
+          <input type="range" name="nature" id="nature" value = "{{result['nature']}}" min="-10" max="10" oninput="ageOutputId1.value = nature.value">
+          <output name="ageOutputName1" id="ageOutputId1">{{result['nature']}}</output>
+          <div><font size="2">History</font></div>
+          <input type="range" name="history" id="history" value="{{result['history']}}" min="-10" max="10" oninput="ageOutputId2.value = history.value">
+          <output name="ageOutputName2" id="ageOutputId2">{{result['history']}}</output>
+          <div><font size="2">Culture</font></div>
+          <input type="range" name="culture" id="culture" value="{{result['culture']}}" min="-10" max="10" oninput="ageOutputId3.value = culture.value">
+          <output name="ageOutputName3" id="ageOutputId3">{{result['culture']}}</output>
+          <div><font size="2">Life</font></div>
+          <input type="range" name="life" id="life" value="{{result['life']}}" min="-10" max="10" oninput="ageOutputId4.value = life.value">
+          <output name="ageOutputName4" id="ageOutputId4">{{result['life']}}</output>
         </div>
       </div>
-    <!-- </div> -->
-  </td>
-
-
-
-
-
-  <td>
-  <!-- <div class="container"> -->
-    <div class="row">
-      <div class="col-sm-6">
-      <!-- <form action="/trap" METHOD="POST"> -->
-        <div><font size="2">Nature</font></div>
-        <input type="range" name="nature" id="nature" value = "{{result['nature']}}" min="-10" max="10" oninput="ageOutputId1.value = nature.value">
-        <output name="ageOutputName1" id="ageOutputId1">{{result['nature']}}</output>
-        <div><font size="2">History</font></div>
-        <input type="range" name="history" id="history" value="{{result['history']}}" min="-10" max="10" oninput="ageOutputId2.value = history.value">
-        <output name="ageOutputName2" id="ageOutputId2">{{result['history']}}</output>
-        <div><font size="2">Culture</font></div>
-        <input type="range" name="culture" id="culture" value="{{result['culture']}}" min="-10" max="10" oninput="ageOutputId3.value = culture.value">
-        <output name="ageOutputName3" id="ageOutputId3">{{result['culture']}}</output>
-        <div><font size="2">Life</font></div>
-        <input type="range" name="life" id="life" value="{{result['life']}}" min="-10" max="10" oninput="ageOutputId4.value = life.value">
-        <output name="ageOutputName4" id="ageOutputId4">{{result['life']}}</output>
-         <!-- <p><input type = "submit" value = "Get Recommendations" /></p>
-      </form> -->
-      </div>
-    </div>
-  <!-- </div> -->
-  </td>
-
+    </td>
   </tr>
 </table>
-<p><input type = "submit" value = "Get Recommendations" /></p>
-</form>
+<td><input type = "submit" value = "Get Recommendations" /></td>
 
-<!-- route=result['route'] -->
 
  {% if result['route'] is defined %}
  <table>
@@ -150,6 +185,5 @@ tr:hover {background-color: #f5f5f5;}
 
 </body>
 
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
 
 <html>

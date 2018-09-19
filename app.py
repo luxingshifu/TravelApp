@@ -1,4 +1,4 @@
-from flask import Flask, abort, render_template, jsonify, request, redirect, url_for, flash, make_response
+from flask import Flask, abort, render_template, jsonify, session, request, redirect, url_for, flash, make_response
 from api import make_prediction
 import pandas as pd
 import os
@@ -7,17 +7,14 @@ import pickle as pkl
 from werkzeug.datastructures import ImmutableMultiDict
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey
 
-# DATABASE_URL = os.environ['DATABASE_URL']
+DATABASE_URL = os.environ['DATABASE_URL']
 
 metadata=MetaData()
-engine=create_engine('postgresql://localhost/postgres')
-# engine=create_engine(DATABASE_URL)
+# engine=create_engine('postgresql://localhost/postgres')
+engine=create_engine(DATABASE_URL)
 conn=engine.connect()
 metadata.reflect(bind=engine)
 user_table=metadata.tables['user_data']
-
-
-start=True
 
 
 
@@ -32,12 +29,11 @@ def clean_string(bla):
         return bla
 
 
-with open('good_data/site_index.pkl','rb') as f:
-    fpl=pkl.load(f)
-user_columns=['nature','history','culture','life']+fpl
+# with open('good_data/site_index.pkl','rb') as f:
+#     fpl=pkl.load(f)
+# user_columns=['nature','history','culture','life']+fpl
+#
 
-
-ct=0
 # conn.execute(user_table.insert(),[{'index':22,'cat':2,'dog':3,'chicken':4,'bat':4,'wambat':3}])
 
 
@@ -48,37 +44,16 @@ ct=0
 # from api_itin import itin_generator
 
 app=Flask('TravelApp')
+app.secret_key='asdfjkl;'
 
 
-# def setup_app(app):
-#     res = make_response("YOLO")
-#     res.set_cookie(start, True, max_age=60*60*24*365*2)
 
-# setup_app(app)
+@app.before_first_request
+def initialize():
+    session['start']=True
 
 
-def starting():
-    # make the session last indefinitely until it is cleared
-    res = make_response("YOLO")
-    res.set_cookie('check', 'True', max_age=60*60*24*365*2)
-    return 'hello'
 
-app.before_first_request(starting)
-
-# @app.route('/predict',methods=['GET','POST'])
-# def do_prediction():
-#     if not request.form:
-#         abort(400)
-#
-#     data=request.form
-#     print("Here is our lovely data",flush =True)
-#     print(data)
-#
-#     response=make_prediction(data)
-#     print("and here is the response.....",flush=True)
-#     print(response['actual_route'])
-#     print("yep, that was the response", flush=True)
-#     return jsonify(response)
 
 
 
@@ -100,8 +75,16 @@ def function():
         # res.set_cookie('start', False, max_age=60*60*24*365*2)
         # set_cookie('start', False, max_age=60*60*24*365*2)
         # ct+=1
+        session['start']=False
+        res2 = make_response("YOLO")
+        res2.set_cookie('start', 'False', max_age=60*60*24*365*2)
+        print("***************************DDDDADAAAAAATTTTTTAAAAAA****************",flush=True)
         data=request.form.to_dict()
+        # print(data,flush=True)
+
         d={k:data[k] for k in data.keys()}
+        print(d,flush=True)
+        print("***************************DDDDADAAAAAATTTTTTAAAAAA****************",flush=True)
         d2={k:d[k] for k in d.keys()}
         response=make_prediction(d)
         # route=response['actual_route']
@@ -120,7 +103,11 @@ def function():
 @app.route('/',methods=['GET','POST'])
 def index():
 
+    start=session['start']
+
     if request.method == 'GET':
+        # start=request.cookies.get('start')
+        # print(start)
         # data=request.form.to_dict()
         # if request.cookies.get(start):
         #     # nature, history, culture, life= 0,0,0,0
@@ -133,35 +120,31 @@ def index():
 
         # res = make_response("Value of cookie foo is {}".format(request.cookies.get('foo')))
         # start = request.cookies.get(start)
+        if not start:
 
-        view='SELECT nature, history, culture, life FROM user_data'
-        d=dict(pd.read_sql(view,engine).iloc[-1])
-        nature=d['nature']
-        history=d['history']
-        culture=d['culture']
-        life=d['life']
-        #Let's get the results from the database so we can display the sliders
-        #appropriately the next time the user accesses this page.
+            view='SELECT nature, history, culture, life FROM user_data'
+            d=dict(pd.read_sql(view,engine).iloc[-1])
+            #set start initial time
+            nature=d['nature']
+            history=d['history']
+            culture=d['culture']
+            life=d['life']
+            d['starttime']=9
+            d['finishtime']=17
+            d['budget']=0
 
-        # nature=d['nature']
-        # history=d['history']
-        # culture=d['culture']
-        # life=d['life']
 
-        print("hi there, this is what we are feeding in to 'make_prediction'",flush=True)
-        print(d)
-        print("Hope that was useful",flush=True)
-        print(f"The request method is {request.method}",flush=True)
-        print(start)
-            # d={k:float(data[k]) for k in data.keys()}
-        response=make_prediction(d)
-        route = response['actual_route']
-        # prefs=[1,2,3,4]
-        result={'route':route,'nature':nature,'history':history,'culture':culture,'life':life}
 
-        return render_template('index.html', result = result)
+            response=make_prediction(d)
+            route = response['actual_route']
+            result={'route':route,'nature':nature,'history':history,'culture':culture,'life':life}
 
-    print(f"The request method is {request.method}",flush=True)
+            return render_template('index.html', result = result)
+        else:
+            result={'nature':0,'history':0,'culture':0,'life':0}
+            return render_template('index.html',result=result)
+
+    # print(f"The request method is {request.method}",flush=True)
 
     return render_template('index.html')
 
