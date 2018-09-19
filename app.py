@@ -57,7 +57,7 @@ def clean_string(bla):
 
 app=Flask('TravelApp')
 app.secret_key='asdfjkl;'
-app.config['GOOGLEMAPS_KEY']="AIzaSyB-9ZI7M3DneS6lPAZAItAlnNPZ5TpbgdU"
+app.config['GOOGLEMAPS_KEY']="HELLO"
 GoogleMaps(app)
 <<<<<<< HEAD
 
