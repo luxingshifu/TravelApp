@@ -1,5 +1,6 @@
 from flask import Flask, abort, render_template, jsonify, session, request, redirect, url_for, flash, make_response
 from api import make_prediction
+from flask_googlemaps import GoogleMaps, Map
 import pandas as pd
 import os
 import pickle as pkl
@@ -9,9 +10,15 @@ from werkzeug.datastructures import ImmutableMultiDict
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey
 from get_route_geolocations import get_route_geolocations
 
+<<<<<<< HEAD
 dict_directions = {}
 
 
+=======
+
+
+# GOOGLEMAPS_KEY = os.environ['GOOGLEMAPS_KEY']
+>>>>>>> 63e4b587ae98bcbf7023f857ee74f5ce3341ef68
 # DATABASE_URL = os.environ['DATABASE_URL']
 
 metadata=MetaData()
@@ -52,8 +59,11 @@ app=Flask('TravelApp')
 app.secret_key='asdfjkl;'
 app.config['GOOGLEMAPS_KEY']="AIzaSyB-9ZI7M3DneS6lPAZAItAlnNPZ5TpbgdU"
 GoogleMaps(app)
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 63e4b587ae98bcbf7023f857ee74f5ce3341ef68
 
 @app.before_first_request
 def initialize():
@@ -102,6 +112,7 @@ def function():
         # res.set_cookie('start', False, max_age=60*60*24*365*2)
         # set_cookie('start', False, max_age=60*60*24*365*2)
         # ct+=1
+
         session['start']=False
         res2 = make_response("YOLO")
         res2.set_cookie('start', 'False', max_age=60*60*24*365*2)
@@ -132,8 +143,34 @@ def function():
 def index():
 
     start=session['start']
+    mymap=Map(
+        identifier="catsmap",
+        lat=37.4419,
+        lng=-122.1419,
+        markers=[
+            {
+                'icon': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                'lat':  37.4419,
+                'lng':  -122.1419,
+                'infobox': "<img src='cat1.jpg' />"
+            },
+            {
+                'icon': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                'lat': 37.4300,
+                'lng': -122.1400,
+                'infobox': "<img src='cat2.jpg' />"
+            },
+            {
+                'icon': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+                'lat': 37.4500,
+                'lng': -122.1350,
+                'infobox': "<img src='cat3.jpg' />"
+            }
+        ]
+    )
 
     if request.method == 'GET':
+
         # start=request.cookies.get('start')
         # print(start)
         # data=request.form.to_dict()
@@ -161,18 +198,14 @@ def index():
             d['finishtime']=17
             d['budget']=0
 
-
-
             response=make_prediction(d)
             route = response['actual_route']
             result={'route':route,'nature':nature,'history':history,'culture':culture,'life':life}
 
-            return render_template('index.html', result = result)
+            return render_template('index.html', result = result,mymap=mymap)
         else:
             result={'nature':0,'history':0,'culture':0,'life':0}
-            return render_template('index.html',result=result)
-
-    # print(f"The request method is {request.method}",flush=True)
+            return render_template('index.html',result=result,mymap=mymap)
 
     return render_template('index.html')
 
