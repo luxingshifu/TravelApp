@@ -8,7 +8,7 @@ dict_directions = {}
 
 app = Flask('Kojak_Flask')
 
-app.config['GOOGLEMAPS_KEY'] = "AIzaSyB-9ZI7M3DneS6lPAZAItAlnNPZ5TpbgdU"
+app.config['GOOGLEMAPS_KEY'] = "HIDDEN"
 
 GoogleMaps(app)
 
