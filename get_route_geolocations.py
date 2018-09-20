@@ -1,3 +1,7 @@
+import pickle as pkl
+
+proxy_dct=pkl.load(open('proxy_dct.pkl','rb'))
+
 def get_route_geolocations(route):
     import pickle as pkl
     _, attr_by_geolocations = pkl.load(open('important_items.pkl', 'rb'))
@@ -11,7 +15,10 @@ def get_route_geolocations(route):
     try:
         start_geocoord = hotels_index[start]
     except:
-        start_geocoord = attr_by_geolocations[start]
+        try:
+            start_geocoord = attr_by_geolocations[start]
+        except:
+            start_geocoord = attr_by_geolocations[proxy_dct[start]]
 
     dct_route['start'] = {'location' : start_geocoord, 'name': start}
 

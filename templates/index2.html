@@ -32,7 +32,7 @@
 }
 
 #scores td, #scores th {
-    border: 1px solid #ddd;
+    border: 0px solid #ddd;
     padding: 8px;
 }
 
@@ -55,15 +55,17 @@
 
 <body>
 
-  {% if result is defined %}
+  {% if rec_photo is defined %}
   <div style="overflow-x:auto;">
   <table id="scores" width = "600" align="center">
     <tr>
-      <th> Attraction </th>
-      <th> Score </th>
+      <th>   </th>
+      <th align="center"> Attraction </th>
+      <th align="center"> Score </th>
     </tr>
-    {% for x in result %}
+    {% for x in rec_photo %}
      <tr>
+       <td><img src={{x[2]}}></td>
        <td>{{x[0]}}</td>
        <td>{{x[1]}}</td>
      </tr>
@@ -75,10 +77,9 @@
 
 
 
-To leave this awful page, please click on the bright shiny button I've provided....
 
 <form action = '/map' METHOD = "GET">
-<p><input type = "submit" value = "Get Me Out of Here!!!" /></p>
+<p><input type = "submit" value = "See Map" /></p>
 </form>
 
 

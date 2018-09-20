@@ -10,15 +10,7 @@ from werkzeug.datastructures import ImmutableMultiDict
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey
 from get_route_geolocations import get_route_geolocations
 
-<<<<<<< HEAD
-dict_directions = {}
-
-
-=======
-
-
 # GOOGLEMAPS_KEY = os.environ['GOOGLEMAPS_KEY']
->>>>>>> 63e4b587ae98bcbf7023f857ee74f5ce3341ef68
 # DATABASE_URL = os.environ['DATABASE_URL']
 
 metadata=MetaData()
@@ -59,11 +51,6 @@ app=Flask('TravelApp')
 app.secret_key='asdfjkl;'
 app.config['GOOGLEMAPS_KEY']="HELLO"
 GoogleMaps(app)
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 63e4b587ae98bcbf7023f857ee74f5ce3341ef68
 
 @app.before_first_request
 def initialize():
@@ -87,11 +74,11 @@ def fun():
     dct = get_route_geolocations(good_route)
     print(dct,flush=True)
     # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
-
-
     return render_template('gmaps2.html',results = dct)
 
-
+# @app.route('/error')
+# def error():
+#     return render_template('error.html')
 
 
 @app.route('/cookie/')
@@ -114,8 +101,8 @@ def function():
         # ct+=1
 
         session['start']=False
-        res2 = make_response("YOLO")
-        res2.set_cookie('start', 'False', max_age=60*60*24*365*2)
+
+
         print("***************************DDDDADAAAAAATTTTTTAAAAAA****************",flush=True)
         data=request.form.to_dict()
         # print(data,flush=True)
@@ -124,18 +111,22 @@ def function():
         print(d,flush=True)
         print("***************************DDDDADAAAAAATTTTTTAAAAAA****************",flush=True)
         d2={k:d[k] for k in d.keys()}
-        response=make_prediction(d)
+        try:
+            response=make_prediction(d)
+        except:
+            return render_template('error.html')
         # route=response['actual_route']
         result = response['recommendations']
         session['actual_route']=response['actual_route']
+        session['starttime']=d['starttime']
+        session['finishtime']=d['finishtime']
+        session['budget']=d['budget']
+        rec_photo=response['rec_photo']
         recs={clean_string(x[0]):x[1] for x in result}
         uservector={**d2,**recs}
         conn.execute(user_table.insert(),[uservector])
-
         # print(uservector)
-
-        return render_template('index2.html', result = result[:20])
-
+        return render_template('index2.html', result = result[:10],rec_photo=rec_photo[:10])
     return render_template('index2.html')
 
 
@@ -143,31 +134,7 @@ def function():
 def index():
 
     start=session['start']
-    mymap=Map(
-        identifier="catsmap",
-        lat=37.4419,
-        lng=-122.1419,
-        markers=[
-            {
-                'icon': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-                'lat':  37.4419,
-                'lng':  -122.1419,
-                'infobox': "<img src='cat1.jpg' />"
-            },
-            {
-                'icon': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-                'lat': 37.4300,
-                'lng': -122.1400,
-                'infobox': "<img src='cat2.jpg' />"
-            },
-            {
-                'icon': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
-                'lat': 37.4500,
-                'lng': -122.1350,
-                'infobox': "<img src='cat3.jpg' />"
-            }
-        ]
-    )
+
 
     if request.method == 'GET':
 
@@ -194,18 +161,25 @@ def index():
             history=d['history']
             culture=d['culture']
             life=d['life']
-            d['starttime']=9
-            d['finishtime']=17
-            d['budget']=0
+            starttime=float(session['starttime'])
+            finishtime=float(session['finishtime'])
+            budget=float(session['budget'])
+
+            d['starttime']=starttime
+            d['finishtime']=finishtime
+            d['budget']=budget
 
             response=make_prediction(d)
-            route = response['actual_route']
-            result={'route':route,'nature':nature,'history':history,'culture':culture,'life':life}
 
-            return render_template('index.html', result = result,mymap=mymap)
+            route = response['actual_route']
+            result={'route':route,'nature':nature,'history':history,\
+                    'culture':culture,'life':life,'starttime':starttime,\
+                    'finishtime':finishtime,'budget':budget}
+
+            return render_template('index.html',result=result)
         else:
             result={'nature':0,'history':0,'culture':0,'life':0}
-            return render_template('index.html',result=result,mymap=mymap)
+            return render_template('index.html',result=result)
 
     return render_template('index.html')
 
