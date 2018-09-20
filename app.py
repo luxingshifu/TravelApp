@@ -50,7 +50,9 @@ def clean_string(bla):
 app=Flask('TravelApp')
 app.secret_key='asdfjkl;'
 
+
 app.config['GOOGLEMAPS_KEY']=GOOGLEMAPS_KEY
+
 GoogleMaps(app)
 
 @app.before_first_request
