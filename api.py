@@ -3,6 +3,7 @@ import numpy as np
 import pickle as pkl
 import recommender_v2
 import datetime
+import os
 import itin_gen.api_itin as api_itin
 
 with open('real_data_files/final_attractions_dict.pkl','rb') as f:
@@ -30,7 +31,8 @@ def make_prediction(features):
 
     actual_route=[names[val] for val in routes[best_route][0]]
 
-    key="AIzaSyB-9ZI7M3DneS6lPAZAItAlnNPZ5TpbgdU"
+    # key="AIzaSyB-9ZI7M3DneS6lPAZAItAlnNPZ5TpbgdU"
+    key=os.environ['GOOGLEMAPS_KEY']
     rec_photo=[]
     for place in recs:
         try:
