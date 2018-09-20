@@ -43,7 +43,7 @@ def make_prediction(features):
             else:
                 url='https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iJ913gPoMsl0/v0/200x-1.jpg'
 
-        newrow=place+[url]
+        newrow=[place[0],round(place[1],2)]+[url]
         rec_photo.append(newrow)
 
     print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",flush=True)
