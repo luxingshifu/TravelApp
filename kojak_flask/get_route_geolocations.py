@@ -1,7 +1,14 @@
+import pickle as pkl
+import string
+
+proxy_dct=pkl.load(open('proxy_dct.pkl','rb'))
+
 def get_route_geolocations(route):
     import pickle as pkl
     _, attr_by_geolocations = pkl.load(open('important_items.pkl', 'rb'))
     hotels_index = pkl.load(open('hotel_geocoords_dct.pkl', 'rb'))
+
+    alphabet = list(string.ascii_uppercase)
 
     start = route[0]
     waypts = route[1:-1]
@@ -11,22 +18,34 @@ def get_route_geolocations(route):
     try:
         start_geocoord = hotels_index[start]
     except:
-        start_geocoord = attr_by_geolocations[start]
+        try:
+            start_geocoord = attr_by_geolocations[start]
+        except:
+            start_geocoord = attr_by_geolocations[proxy_dct[start]]
 
-    dct_route['start'] = {'location' : start_geocoord, 'name': start}
+    dct_route['start'] = {'location' : start_geocoord, 'name': start, 'tbl_name': (alphabet[0], start)}
 
-    try:
-        stop_geocoord = hotels_index[stop]
-    except:
-        stop_geocoord =  attr_by_geolocations[stop]
+    waypoint_geocoords = []
+    for waypt in waypts:
+        try:
+            waypoint_val = attr_by_geolocations[waypt]
+        except:
+            waypoint_val = attr_by_geolocations[proxy_dct[waypt]]
+        waypoint_geocoords.append(waypoint_val)
 
-    dct_route['stop'] = {'location' : stop_geocoord, 'name': stop}
+    waypoint_names = list(zip([waypt for waypt in waypts], alphabet[1:len(route)-1]))
 
-    waypoint_geocoords = [attr_by_geolocations[waypt] for waypt in waypts]
-    waypoint_names = [waypt for waypt in waypts]
+    for n in range(len(waypoint_names)):
+        try:
+            stop_geocoord = hotels_index[stop]
+        except:
+            try:
+                stop_geocoord  = attr_by_geolocations[stop]
+            except:
+                stop_geocoord  = attr_by_geolocations[proxy_dct[stop]]
 
-    dct_route['waypoints'] = {'locations':[{'location': waypoint_geocoord} for waypoint_geocoord in waypoint_geocoords], 'names':[waypoint_name for waypoint_name in waypoint_names]}
+    dct_route['stop'] = {'location' : stop_geocoord, 'name': stop, 'tbl_name': (alphabet[len(route)-1], start)}
+
+    dct_route['waypoints'] = {'locations':[{'location': waypoint_geocoord} for waypoint_geocoord in waypoint_geocoords], 'names':[waypoint_name for waypoint_name in waypoint_names], 'tbl_names': waypoint_names}
 
     return dct_route
-
-    #waypoints
