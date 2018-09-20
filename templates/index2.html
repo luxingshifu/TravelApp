@@ -25,10 +25,13 @@
 
 
 <style>
+
+
 #scores {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 60%;
+    margin-top: 50px;
 }
 
 #scores td, #scores th {
@@ -45,15 +48,26 @@
     padding-bottom: 12px;
     text-align: left;
     background-color: #4CAF50;
-    color: white;
-}
+    color: white;}
+
+    div.jumbotron
+    {color:white;
+     background-color: 1185DF;
+      font-size: 100}
+
 </style>
 
 
-
-
-
 <body>
+
+  <div class="jumbotron">
+  	<div class="container">
+  		<h1><font size="100"> Awesome Travel App</font>  </h1>
+  	</div>
+  </div>
+
+
+
 
   {% if rec_photo is defined %}
   <div style="overflow-x:auto;">
