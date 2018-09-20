@@ -10,7 +10,7 @@ from werkzeug.datastructures import ImmutableMultiDict
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey
 from get_route_geolocations import get_route_geolocations
 
-# GOOGLEMAPS_KEY = os.environ['GOOGLEMAPS_KEY']
+GOOGLEMAPS_KEY = os.environ['GOOGLEMAPS_KEY']
 # DATABASE_URL = os.environ['DATABASE_URL']
 
 metadata=MetaData()
@@ -49,7 +49,10 @@ def clean_string(bla):
 
 app=Flask('TravelApp')
 app.secret_key='asdfjkl;'
-app.config['GOOGLEMAPS_KEY']="HELLO"
+
+
+app.config['GOOGLEMAPS_KEY']=GOOGLEMAPS_KEY
+
 GoogleMaps(app)
 
 @app.before_first_request
@@ -64,15 +67,15 @@ def fun():
     # 'Cellarmaker Brewing Company', 'Autodesk Gallery', 'Sea Lion Center', 'Alta Plaza Park',
     # 'San Francisco Opera', 'Golden Gate Bridge', 'San Francisco City Hall', 'Louise M. Davies Symphony Hall',
     # 'Labyrinth of Cultures', 'Sing Fat Co. building', 'Hotel Zelos']
-    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
+    # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
     good_route=session['actual_route']
-    print(good_route,flush=True)
+    # print(good_route,flush=True)
     # print(type(actual_route),flush=True)
-    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
+    # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
     new_route=[str(x) for x in good_route]
     # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
     dct = get_route_geolocations(good_route)
-    print(dct,flush=True)
+    # print(dct,flush=True)
     # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
     return render_template('gmaps2.html',results = dct)
 
@@ -103,13 +106,13 @@ def function():
         session['start']=False
 
 
-        print("***************************DDDDADAAAAAATTTTTTAAAAAA****************",flush=True)
+        # print("***************************DDDDADAAAAAATTTTTTAAAAAA****************",flush=True)
         data=request.form.to_dict()
         # print(data,flush=True)
 
         d={k:data[k] for k in data.keys()}
-        print(d,flush=True)
-        print("***************************DDDDADAAAAAATTTTTTAAAAAA****************",flush=True)
+        # print(d,flush=True)
+        # print("***************************DDDDADAAAAAATTTTTTAAAAAA****************",flush=True)
         d2={k:d[k] for k in d.keys()}
         try:
             response=make_prediction(d)
