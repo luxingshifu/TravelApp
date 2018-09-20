@@ -10,7 +10,7 @@ from werkzeug.datastructures import ImmutableMultiDict
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey
 from get_route_geolocations import get_route_geolocations
 
-# GOOGLEMAPS_KEY = os.environ['GOOGLEMAPS_KEY']
+GOOGLEMAPS_KEY = os.environ['GOOGLEMAPS_KEY']
 # DATABASE_URL = os.environ['DATABASE_URL']
 
 metadata=MetaData()
@@ -49,7 +49,8 @@ def clean_string(bla):
 
 app=Flask('TravelApp')
 app.secret_key='asdfjkl;'
-app.config['GOOGLEMAPS_KEY']="AIzaSyB-9ZI7M3DneS6lPAZAItAlnNPZ5TpbgdU"
+
+app.config['GOOGLEMAPS_KEY']=GOOGLEMAPS_KEY
 GoogleMaps(app)
 
 @app.before_first_request
