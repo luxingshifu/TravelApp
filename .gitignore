@@ -8,3 +8,4 @@ tmp_data/
 /model/proccessed_data.pkl
 /model/processed_data.pickle
 __pycache__/
+*.mov

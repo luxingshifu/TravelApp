@@ -70,9 +70,7 @@ def fun():
     source = "https://maps.googleapis.com/maps/api/js?key="+GOOGLEMAPS_KEY+"&callback=initMap"
 
 
-    print("########################################################",flush=True)
-    print(source,flush=True)
-    print("########################################################",flush=True)
+
 
 
     new_route=[str(x) for x in good_route]

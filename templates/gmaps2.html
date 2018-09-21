@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html>
+
+
+
+
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
@@ -57,6 +61,16 @@
         background-color: #4CAF50;
         color: white;
       }
+
+      input[type=submit] {
+        width: 200px;
+        height:120px;}
+
+      .input{
+        padding: 3px 4px 5px 6px;
+      }
+      }
+
     </style>
   </head>
   <body>
@@ -167,9 +181,11 @@
        src={{map}}>
        </script>
 
-       <form action = '/' METHOD = "GET">
-       <p><input type = "submit" value = "Return" size="200"/></p>
-       </form>
+       <div align="right" class="input">
+         <form action = '/' METHOD = "GET">
+         <p><input type = "submit" value = "Return"/></p>
+         </form>
+      </div>
 
 
      </body>

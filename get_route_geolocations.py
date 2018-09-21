@@ -2,7 +2,7 @@
 import pickle as pkl
 import string
 
-proxy_dct=pkl.load(open('proxy_dct.pkl','rb'))
+proxy_dct=pkl.load(open('good_data/proxy_dct.pkl','rb'))
 
 
 # We need to 1) flip and 2) shift by 1.
