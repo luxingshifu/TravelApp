@@ -68,15 +68,18 @@ def fun():
     good_route=session['actual_route']
 
     source = "https://maps.googleapis.com/maps/api/js?key="+GOOGLEMAPS_KEY+"&callback=initMap"
-    # "https://maps.googleapis.com/maps/api/js?key=AIzaSyB-9ZI7M3DneS6lPAZAItAlnNPZ5TpbgdU&callback=initMap"
-    "https://maps.googleapis.com/maps/api/js?key=AIzaSyBTgP9c-AfkV7JwskPqK4AXvzhdsC-B1pA&callback=initMap"
+
+
+    print("########################################################",flush=True)
+    print(source,flush=True)
+    print("########################################################",flush=True)
 
 
     new_route=[str(x) for x in good_route]
     dct = get_route_geolocations(good_route)
 
 
-    return render_template('gmaps2.html',results = dct,source=source)
+    return render_template('gmaps2.html', results = dct, map = source)
 
 
 @app.route('/cookie/')
