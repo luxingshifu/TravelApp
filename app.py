@@ -33,10 +33,6 @@ def clean_string(bla):
         return bla
 
 
-# with open('good_data/site_index.pkl','rb') as f:
-#     fpl=pkl.load(f)
-# user_columns=['nature','history','culture','life']+fpl
-#
 
 # conn.execute(user_table.insert(),[{'index':22,'cat':2,'dog':3,'chicken':4,'bat':4,'wambat':3}])
 
@@ -67,21 +63,20 @@ def fun():
     # 'Cellarmaker Brewing Company', 'Autodesk Gallery', 'Sea Lion Center', 'Alta Plaza Park',
     # 'San Francisco Opera', 'Golden Gate Bridge', 'San Francisco City Hall', 'Louise M. Davies Symphony Hall',
     # 'Labyrinth of Cultures', 'Sing Fat Co. building', 'Hotel Zelos']
-    # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
-    good_route=session['actual_route']
-    # print(good_route,flush=True)
-    # print(type(actual_route),flush=True)
-    # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
-    new_route=[str(x) for x in good_route]
-    # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
-    dct = get_route_geolocations(good_route)
-    # print(dct,flush=True)
-    # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",flush=True)
-    return render_template('gmaps2.html',results = dct)
 
-# @app.route('/error')
-# def error():
-#     return render_template('error.html')
+
+    good_route=session['actual_route']
+
+    source = "https://maps.googleapis.com/maps/api/js?key="+GOOGLEMAPS_KEY+"&callback=initMap"
+    # "https://maps.googleapis.com/maps/api/js?key=AIzaSyB-9ZI7M3DneS6lPAZAItAlnNPZ5TpbgdU&callback=initMap"
+    "https://maps.googleapis.com/maps/api/js?key=AIzaSyBTgP9c-AfkV7JwskPqK4AXvzhdsC-B1pA&callback=initMap"
+
+
+    new_route=[str(x) for x in good_route]
+    dct = get_route_geolocations(good_route)
+
+
+    return render_template('gmaps2.html',results = dct,source=source)
 
 
 @app.route('/cookie/')
@@ -98,22 +93,14 @@ def function():
 
     if request.method == 'POST':
 
-        # res = make_response("Modifying the cookie")
-        # res.set_cookie('start', False, max_age=60*60*24*365*2)
-        # set_cookie('start', False, max_age=60*60*24*365*2)
-        # ct+=1
-
         session['start']=False
 
 
-        # print("***************************DDDDADAAAAAATTTTTTAAAAAA****************",flush=True)
         data=request.form.to_dict()
-        # print(data,flush=True)
-
         d={k:data[k] for k in data.keys()}
-        # print(d,flush=True)
-        # print("***************************DDDDADAAAAAATTTTTTAAAAAA****************",flush=True)
+
         d2={k:d[k] for k in d.keys()}
+
         try:
             response=make_prediction(d)
         except:
