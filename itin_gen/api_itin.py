@@ -29,6 +29,8 @@ def itin_generator(user_preferences, budget=20000, ambition = [9, 17], temperatu
 
     progress = []
     routes = []
+    diagnostic_list=[]
+
 
     ''' PRINT THINGS '''
     print('budget:', budget)
@@ -37,6 +39,7 @@ def itin_generator(user_preferences, budget=20000, ambition = [9, 17], temperatu
 
     '''keep track of score from initial selection'''
     initial_score = current_route[1]
+    diagnostic_list.append(current_route[3])
     progress.append(current_route[1])
     print(progress)
 
@@ -48,7 +51,8 @@ def itin_generator(user_preferences, budget=20000, ambition = [9, 17], temperatu
     while (temperature > stopping_temperature) & (iteration < max_iterations):
         '''get a candidate'''
 
-        current_route = test2.propagate_change(current_route, budget, tour_length, SF_sites, travel_matrix, temperature)
+        current_route, diagnostics = test2.propagate_change(current_route, budget, tour_length, SF_sites, travel_matrix, temperature)
+
         if (iteration % 50 == 0) :
             print(iteration, temperature, progress[-1], routes[-1])
 
@@ -64,8 +68,9 @@ def itin_generator(user_preferences, budget=20000, ambition = [9, 17], temperatu
 
         '''keep track of the best score & route from the current generation'''
         progress.append(current_route[1])
-
+        diagnostic_list.append(current_route[3])
         routes.append(current_route)
+
 
     best_score_index = np.argmax(np.array(progress))
     best_score = progress[best_score_index]
@@ -79,4 +84,4 @@ def itin_generator(user_preferences, budget=20000, ambition = [9, 17], temperatu
     # plt.xlabel('Iteration')
     # plt.show()
 
-    return progress, routes, best_score_index, site_name_lookup
+    return progress, routes, best_score_index, site_name_lookup, diagnostic_list

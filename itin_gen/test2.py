@@ -79,6 +79,9 @@ class Path:
         score = float(self.highlight_bonus)*float(self.similarity)*float(self.visit_length) - float(self.travel_time()) - float(self.travel_cost())
         return score
 
+    def diagnostics(self):
+        return np.array([float(self.highlight_bonus)*float(self.similarity)*float(self.visit_length), float(self.travel_time()), float(self.travel_cost())])
+
     def __repr__(self):
         return self.name
 
@@ -88,12 +91,25 @@ class Fitness:
         self.route = route
         self.distance = 0
         self.fitness = 0.0
+        self.component_scores=np.array([float(0),float(0),float(0)])
         self.SF_sites = SF_sites
         self.travel_matrix = travel_matrix
         self.o_budget = budget
         self.o_tour_length = tour_length
         self.available_budget = available_budget
         self.available_tour_length = available_tour_length
+
+    def diagnostics(self):
+        if np.all(self.component_scores==np.array([0,0,0])):
+            path_diagnostics=np.array([0,0,0])
+            for i in range(len(self.route)-1):
+                from_attraction = self.route[i]
+                to_attraction = self.route[i+1]
+                path = Path(from_attraction, to_attraction, self.SF_sites, self.travel_matrix)
+                np.add(path_diagnostics, path.diagnostics(), out=path_diagnostics, casting="unsafe")
+                # path_diagnostics+=path.diagnostics()
+        self.component_scores=path_diagnostics
+        return self.component_scores
 
     def route_fitness(self):
 #         from Path import Path
@@ -105,6 +121,7 @@ class Fitness:
                 to_attraction = self.route[i+1]
                 path = Path(from_attraction, to_attraction, self.SF_sites, self.travel_matrix)
                 path_fitness += path.score()
+
 
             spent_budget = self.o_budget - self.available_budget
             spent_tour_length = self.o_tour_length - self.available_tour_length
@@ -174,8 +191,9 @@ def create_initial_route(start, stop, budget, tour_length, SF_sites, travel_matr
     available_tour_length = tour_length - travel_matrix[0][path[-1]][stop]
 
     score = Fitness(path, o_budget, o_tour_length, available_budget, available_tour_length, SF_sites, travel_matrix).route_fitness()
+    diagnostics = Fitness(path, o_budget, o_tour_length, available_budget, available_tour_length, SF_sites, travel_matrix).diagnostics()
 
-    return path, score, [available_budget, available_tour_length]
+    return path, score, [available_budget, available_tour_length], diagnostics
 
 ##### STRATEGY: Next SA Move
 
@@ -323,7 +341,8 @@ class get_new_route():
             leftover_tour_length = tour_length
 
         route_score = Fitness(candidate, self.o_budget, self.o_tour_length, self.leftover_budget, self.leftover_tour_length, self.SF_sites, self.travel_matrix).route_fitness()
-        return candidate, route_score, [leftover_budget, leftover_tour_length]
+        diagnostics = Fitness(candidate, self.o_budget, self.o_tour_length, self.leftover_budget, self.leftover_tour_length, self.SF_sites, self.travel_matrix).diagnostics()
+        return candidate, route_score, [leftover_budget, leftover_tour_length], diagnostics
 
 def get_candidate(current_route, budget, tour_length, SF_sites, travel_matrix):
     current_route = get_new_route(current_route, budget, tour_length, SF_sites, travel_matrix)
@@ -355,4 +374,4 @@ def update_path(current_path, candidate, temperature):
 def propagate_change(current_route, budget, tour_length, SF_sites, travel_matrix, temperature):
     candidate = get_candidate(current_route, budget, tour_length, SF_sites, travel_matrix)
     updated_route = update_path(current_route, candidate, temperature)
-    return updated_route
+    return updated_route, current_route[3]
