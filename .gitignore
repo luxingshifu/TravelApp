@@ -1,6 +1,6 @@
 
 .ipynb_checkpoints/
-raw_data/
+*/raw_data/
 /model/model3
 /model/model.pkl
 .env
@@ -9,3 +9,4 @@ tmp_data/
 /model/processed_data.pickle
 __pycache__/
 *.mov
+preprocessing/raw_data
