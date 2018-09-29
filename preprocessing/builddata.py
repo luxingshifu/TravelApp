@@ -2,24 +2,32 @@ import numpy as np
 import pickle as pkl
 import bisect
 import os
+# import sys
+approot=os.getcwd().strip('preprocessing')
+# sys.path.append(approot+'recommender_files')
 import pandas as pd
 import math
 from collections import Counter
 import random
-# import recsys
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
 
+#First we get the important data.  We should make the 'city'
+#a variable determined by the user.
 
+city='Los_Angeles'
+data_dir=approot+'good_data/'+city
+style_mapper=pkl.load(open(approot+'good_data/style_mapper.pkl','rb'))
+site_index=pkl.load(open(data_dir+'/site_index.pkl','rb'))
+loc_info=pkl.load(open(data_dir+'/loc_info.pkl','rb'))
 
-with open('good_data/style_mapper.pkl','rb') as f:
-    style_mapper=pkl.load(f)
-
-site_index=pkl.load(open('good_data/San_Francisco/site_index.pkl','rb'))
-
-with open('good_data/San_Francisco/loc_info.pkl','rb') as f:
-    loc_info=pkl.load(f)
+if city=='San_Francisco':
+    #Will write some code here to make SF compatible with
+    #new data structure.  Basically, need to modify 'res'
+    #in the function 'get_res' so that the extra layer
+    #of dictionaries makes sense.
+    pass
 
 def remove_reviews(bla):
     return [x for x in bla if 'Reviews' not in x]
@@ -28,15 +36,21 @@ loc_info_clean={x: remove_reviews(loc_info[x][1]) for x in loc_info.keys()}
 
 
 
-#Results is a list of user rankings of various attractions in SF.  It is structured as a list of json
+#Results is a list of user rankings of various attractions in 'city'.  It is structured as a list of json
 # like files of the form [{user1:{attraction1:rating1,attraction2:rating2,attraction3:rating3}, user2:...}]
 
 def get_res():
     results=[]
-    for k in range(100,19400,100):
-        with open(f'preprocessing/raw_data/San_Francisco/file_{k}.pkl','rb') as f:
-            likes=pkl.load(f)
-            results.append(likes)
+    check=True
+    k=0
+    while check:
+        try:
+            with open(approot+'preprocessing/raw_data/'+city+f'/file_{k}.pkl','rb') as f:
+                likes=pkl.load(f)
+                results.append(likes)
+            k+=100
+        except:
+            check=False
 
     # Now we need to combine all the results above into one big dictionary.
     res=results[0]
@@ -49,8 +63,9 @@ def clean_res():
     keys=list(res.keys())
     new_dct={}
     for i in range(len(keys)):
-        dct=res[keys[i]]
-        new={x[15:]:dct[x] for x in dct if x[15:] in site_index}
+        dct=res[keys[i]]['ratings']
+        n=len(city)+2
+        new={x[n:]:dct[x] for x in dct if x[n:] in site_index}
         if len(new)!=0:
             new_dct[keys[i]]=new
     return new_dct
@@ -163,9 +178,16 @@ def config_data(res, loc_info_clean, style_mapper):
     place_profiles=make_place_profile(site_index,loc_info_clean,style_mapper)
     user_profiles=make_user_profiles(matrix,loc_info_clean)
     np_profiles=convert_profiles_to_np(user_profiles)
-
     np_profiles_normalized=pd.DataFrame(np_profiles).apply(lambda x: convert_to_cdf(x,0,10),axis=0)
-
     new_matrix=np.concatenate((np_profiles_normalized,matrix),axis=1)
 
     return user_profiles, new_matrix, place_profiles
+
+
+res=clean_res()
+user_profiles, matrix, place_profiles=config_data(res, loc_info_clean, style_mapper)
+
+
+pkl.dump(place_profiles,open(data_dir+'/place_profiles.pkl','wb'))
+pkl.dump(matrix,open(data_dir+'/matrix.pkl','wb'))
+pkl.dump(user_profiles,open(data_dir+'/user_profiles.pkl','wb'))

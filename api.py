@@ -1,10 +1,11 @@
-# Kickstarter!!!!!!!!!!!!!!!!!!
 import numpy as np
 import pickle as pkl
 import recommender_files.recommender_v2 as recommender_v2
 # import datetime
 import os
 import itin_gen.api_itin as api_itin
+
+#Need to re-generate final_attractions_dict for Los_Angeles.
 
 with open('good_data/San_Francisco/final_attractions_dict.pkl','rb') as f:
     fad=pkl.load(f)
