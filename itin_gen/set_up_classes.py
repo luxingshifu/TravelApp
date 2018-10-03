@@ -34,10 +34,10 @@ class Traveler:
         '''sites'''
         # site_index = pkl.load(open('site_index.pkl', 'rb'))
         site_index=pkl.load(open(root+'/good_data/San_Francisco/site_index.pkl','rb'))
-        highlight_bonuses = pkl.load(open('highlight_bonuses.pkl', 'rb'))
+        highlight_bonuses = pkl.load(open(root+'/good_data/San_Francisco/highlight_bonuses.pkl', 'rb'))
 
-        visit_length = pkl.load(open('visit_length.pkl', 'rb'))
-        visit_cost = pkl.load(open('entrance_fees.pkl', 'rb'))
+        visit_length = pkl.load(open(root+'/good_data/San_Francisco/visit_length.pkl', 'rb'))
+        visit_cost = pkl.load(open(root+'/good_data/San_Francisco/entrance_fees.pkl', 'rb'))
 
         '''paths'''
         travel_times = pkl.load(open('travel_times.pkl', 'rb'))
