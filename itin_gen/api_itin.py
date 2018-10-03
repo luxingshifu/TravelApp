@@ -1,4 +1,18 @@
-def itin_generator(user_preferences, budget=20000, ambition = [9, 17], temperature=100, stopping_temperature=0.00000001, max_iterations=10000, alpha=0.995):
+import set_up_classes
+from set_up_classes import Traveler as Traveler
+from set_up_classes import Path as Path
+from set_up_classes import Route as Route
+from set_up_classes import initial_routes as initial_routes
+from set_up_classes import create_children as create_children
+from set_up_classes import ga_move as ga_move
+from set_up_classes import score_generation as score_generation
+from set_up_classes import ga_plot as ga_plot
+import itin_gen.test2 as test2
+import itin_gen.test3 as test3
+
+
+
+def itin_generator(user_preferences, start, stop, budget=20000, ambition = [9, 17], temperature=100, stopping_temperature=0.00000001, max_iterations=10000, alpha=0.995):
 
     import pandas as pd
     import numpy as np
@@ -10,8 +24,6 @@ def itin_generator(user_preferences, budget=20000, ambition = [9, 17], temperatu
     # from Path import Path
     # from Fitness import Fitness
 
-    import itin_gen.test2 as test2
-    #import test2
 
     np.random.seed(55)
 

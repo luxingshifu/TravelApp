@@ -3,12 +3,17 @@ from api import make_prediction
 from flask_googlemaps import GoogleMaps, Map
 import pandas as pd
 import os
+import pickle as pkl
 from flask_googlemaps import GoogleMaps, Map
 # from boto.s3.connection import S3Connection
 from werkzeug.datastructures import ImmutableMultiDict
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey
 import itin_gen.get_route_geolocations as get_route_geolocations
 from get_route_geolocations import get_route_geolocations
+
+root =os.getcwd()
+hotel_index=pkl.load(open(root+'/good_data/San_Francisco/hotel_index.pkl','rb'))
+
 
 GOOGLEMAPS_KEY = os.environ['GOOGLEMAPS_KEY']
 # DATABASE_URL = os.environ['DATABASE_URL']
@@ -18,7 +23,7 @@ engine=create_engine('postgresql://localhost/postgres')
 # engine=create_engine(DATABASE_URL)
 conn=engine.connect()
 metadata.reflect(bind=engine)
-user_table=metadata.tables['user_data']
+user_table=metadata.tables['san_francisco_user_data']
 
 
 
@@ -45,8 +50,6 @@ def clean_string(bla):
 
 app=Flask('TravelApp')
 app.secret_key='asdfjkl;'
-
-
 app.config['GOOGLEMAPS_KEY']=GOOGLEMAPS_KEY
 
 GoogleMaps(app)
@@ -66,28 +69,20 @@ def fun():
 
 
     good_route=session['actual_route']
-
     source = "https://maps.googleapis.com/maps/api/js?key="+GOOGLEMAPS_KEY+"&callback=initMap"
-
-
-
-
-
     new_route=[str(x) for x in good_route]
     dct = get_route_geolocations(good_route)
-
-
     return render_template('gmaps2.html', results = dct, map = source)
 
 
-@app.route('/cookie/')
-def cookie():
-    if not request.cookies.get('foo'):
-        res = make_response("YOLO")
-        res.set_cookie('foo', 'barrel', max_age=60*60*24*365*2)
-    else:
-        res = make_response("Value of cookie foo is {}".format(request.cookies.get('foo')))
-    return res
+# @app.route('/cookie/')
+# def cookie():
+#     if not request.cookies.get('foo'):
+#         res = make_response("YOLO")
+#         res.set_cookie('foo', 'barrel', max_age=60*60*24*365*2)
+#     else:
+#         res = make_response("Value of cookie foo is {}".format(request.cookies.get('foo')))
+#     return res
 
 @app.route('/trap', methods=['GET','POST'])
 def function():
@@ -98,9 +93,11 @@ def function():
 
 
         data=request.form.to_dict()
-        d={k:data[k] for k in data.keys()}
-
-        d2={k:d[k] for k in d.keys()}
+        d={str(k):data[k] for k in data.keys()}
+        print("############################################",flush=True)
+        print(d,flush=True)
+        print(d['name'],flush=True)
+        print("############################################",flush=True)
 
         try:
             response=make_prediction(d)
@@ -110,11 +107,14 @@ def function():
         result = response['recommendations']
         session['actual_route']=response['actual_route']
         session['starttime']=d['starttime']
+        session['name']=d['name']
+        session['starthotel']=d['starthotel']
+        session['endhotel']=d['endhotel']
         session['finishtime']=d['finishtime']
         session['budget']=d['budget']
         rec_photo=response['rec_photo']
         recs={clean_string(x[0]):x[1] for x in result}
-        uservector={**d2,**recs}
+        uservector={**d,**recs}
         conn.execute(user_table.insert(),[uservector])
         # print(uservector)
         return render_template('index2.html', result = result[:10],rec_photo=rec_photo[:10])
@@ -155,6 +155,9 @@ def index():
             starttime=float(session['starttime'])
             finishtime=float(session['finishtime'])
             budget=float(session['budget'])
+            d['name']=session['name']
+            d['starthotel']=session['starthotel']
+            d['endhotel']=session['endhotel']
 
             d['starttime']=starttime
             d['finishtime']=finishtime
@@ -167,12 +170,12 @@ def index():
                     'culture':culture,'life':life,'starttime':starttime,\
                     'finishtime':finishtime,'budget':budget}
 
-            return render_template('index.html',result=result)
+            return render_template('index.html',result=result,hotel_index=hotel_index)
         else:
             result={'nature':0,'history':0,'culture':0,'life':0}
-            return render_template('index.html',result=result)
+            return render_template('index.html',result=result,hotel_index=hotel_index)
 
-    return render_template('index.html')
+    return render_template('index.html',hotel_index=hotel_index)
 
 if __name__ == '__main__':
   app.run(debug=True)

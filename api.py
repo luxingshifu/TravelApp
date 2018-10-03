@@ -4,6 +4,7 @@ import recommender_files.recommender_v2 as recommender_v2
 # import datetime
 import os
 import itin_gen.api_itin as api_itin
+# import itin_gen.api_itin_3 as api_itin_3
 
 #Need to re-generate final_attractions_dict for Los_Angeles.
 
@@ -12,7 +13,12 @@ with open('good_data/San_Francisco/final_attractions_dict.pkl','rb') as f:
 
 
 def make_prediction(features):
-
+    # print(features.keys())
+    # for k in list(features.keys()):
+    #     print(k, type(k))
+    for k in list(features.keys()):
+        print(k,features[k])
+    traveler=features['name']
     nat=float(features['nature'])
     hist=float(features['history'])
     cult=float(features['culture'])
@@ -20,6 +26,9 @@ def make_prediction(features):
     st=float(features['starttime'])
     en=float(features['finishtime'])
     budget=float(features['budget'])
+    end=features['endhotel']
+    start=features['starthotel']
+
 
     preferences=[nat,hist,cult,life]
     if np.linalg.norm(np.array(preferences))<.01:
@@ -30,8 +39,10 @@ def make_prediction(features):
     recs=recommender_v2.preferences_to_placescores(preferences,num_results=200,weight=.01)
 
 
-    progress, routes, best_route, names, diagnostics=api_itin.itin_generator(recs,budget=budget,alpha=.8,ambition=[st,en],max_iterations=1000)
+    progress, routes, best_route, names, diagnostics=api_itin.itin_generator(recs,start, end, budget=budget,alpha=.8,ambition=[st,en],max_iterations=1000)
 
+
+    # actual_route_3 = api_itin_3.get_itinerary(recs, start, end, budget=budget, ambition=[st,en])
     actual_route=[names[val] for val in routes[best_route][0]]
 
     key=os.environ['GOOGLEMAPS_KEY']
