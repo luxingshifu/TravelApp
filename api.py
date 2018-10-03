@@ -40,14 +40,14 @@ def make_prediction(features):
 
 
 
-    progress, routes, best_route, names, diagnostics=api_itin.itin_generator(recs,budget=budget,alpha=.8,ambition=[st,en],max_iterations=1000)
+    # progress, routes, best_route, names, diagnostics=api_itin.itin_generator(recs,budget=budget,alpha=.8,ambition=[st,en],max_iterations=1000)
 
-    actual_route_3=api_itin_3.get_itinerary(recs,start,stop, budget,ambition=[st,en])
+    # actual_route_3=api_itin_3.get_itinerary(recs,start,end, budget,ambition=[st,en])
 
 
 
     actual_route_3 = api_itin_3.get_itinerary(recs, start, end, budget=budget, ambition=[st,en])
-    actual_route=[names[val] for val in routes[best_route][0]]
+    # actual_route=[names[val] for val in routes[best_route][0]]
 
     key=os.environ['GOOGLEMAPS_KEY']
     rec_photo=[]
@@ -72,7 +72,6 @@ def make_prediction(features):
     result = {
         'recommendations':recs,
         'actual_route':actual_route_3,
-        'progress':progress,
         'rec_photo':rec_photo}
 
     return result
