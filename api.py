@@ -3,7 +3,7 @@ import pickle as pkl
 import recommender_files.recommender_v2 as recommender_v2
 # import datetime
 import os
-import itin_gen.api_itin as api_itin
+# import itin_gen.api_itin as api_itin
 import itin_gen.api_itin_3 as api_itin_3
 
 #Need to re-generate final_attractions_dict for Los_Angeles.
