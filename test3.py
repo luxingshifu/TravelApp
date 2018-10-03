@@ -6,11 +6,7 @@ import numpy as np
 '''SHARED CLASSES'''
 '''This sets up all the classes used by the final model(s).'''
 
-<<<<<<< HEAD
-# user_preferences = pkl.load(open('austin.pkl', 'rb'))
-=======
 user_preferences = pkl.load(open('austin.pkl', 'rb'))
->>>>>>> master
 start = 'St. Regis'
 stop = 'Hotel Vitale'
 
@@ -253,11 +249,7 @@ class Route:
 
     def __repr__(self):
         return str(self.route)
-<<<<<<< HEAD
-
-=======
                 
->>>>>>> master
 '''******'''
 '''Initial Routes'''
 class initial_routes():

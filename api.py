@@ -39,7 +39,11 @@ def make_prediction(features):
     recs=recommender_v2.preferences_to_placescores(preferences,num_results=200,weight=.01)
 
 
-    progress, routes, best_route, names, diagnostics=api_itin.itin_generator(recs,start, end, budget=budget,alpha=.8,ambition=[st,en],max_iterations=1000)
+
+    progress, routes, best_route, names, diagnostics=api_itin.itin_generator(recs,budget=budget,alpha=.8,ambition=[st,en],max_iterations=1000)
+
+    actual_route_3=api_itin_3.get_itinerary(recs,start,stop budget,ambition=[st,en])
+
 
 
     actual_route_3 = api_itin_3.get_itinerary(recs, start, end, budget=budget, ambition=[st,en])
