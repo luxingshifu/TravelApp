@@ -40,8 +40,8 @@ class Traveler:
         visit_cost = pkl.load(open(root+'/good_data/San_Francisco/entrance_fees.pkl', 'rb'))
 
         '''paths'''
-        travel_times = pkl.load(open('travel_times.pkl', 'rb'))
-        travel_costs = pkl.load(open('travel_costs.pkl', 'rb'))
+        travel_times = pkl.load(open(root+'/good_data/San_Francisco/travel_times.pkl', 'rb'))
+        travel_costs = pkl.load(open(root+'/good_data/San_Francisco/travel_costs.pkl', 'rb'))
 
         '''utilize user_preferences to get the needed data structures'''
 
@@ -81,8 +81,8 @@ class Traveler:
         '''hotel information'''
         '''Possible hotels: ['The Fairmont San Francisco', 'Hotel Boheme', 'St. Regis', 'Nineteen 06 Mission', 'Oceanview Motel', 'Inn at the Presidio', 'Hotel Vitale', 'The Wharf Inn', 'Hotel Zephyr', 'Seaside Inn', 'Hotel Nikko', 'Hotel Zelos', "Noe's Nest Bed and Breakfast in San Francisco"]'''
 
-        hotel_index = pkl.load(open('hotel_index.pkl', 'rb'))
-        hotel_times = pkl.load(open('hotel_times.pkl', 'rb'))
+        hotel_index = pkl.load(open(root+'/good_data/San_Francisco/hotel_index.pkl', 'rb'))
+        hotel_times = pkl.load(open(root+'/good_data/San_Francisco/hotel_times.pkl', 'rb'))
         hotel_travel_costs = pkl.load(open('hotel_travel_costs.pkl', 'rb'))
 
         start_hotel_index = hotel_index.index(self.start) + len(user_site_indices)
