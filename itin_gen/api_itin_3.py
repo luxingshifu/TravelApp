@@ -13,14 +13,19 @@ def get_itinerary(user_preferences, start, stop, budget=200, ambition=[9,17]):
 # ga_plot(traveler, gen_size=35, elite_size=2, mutation_rate=0.1, num_generations=100)
     GA = ga_plot(Austin, 20, 4, 0.1, 10)
     progress, routes, best_score_index = GA.evolve()
+    print(Austin.site_name_lookup,flush=True)
 
     best_route = routes[best_score_index]
 
     best_route_attractions = []
 
     for attraction_index in best_route.route:
-        print(attraction_index)
-        if attraction_index > len(Austin.SF_sites):
+        print("###################&&&&&&&&&&&&&&&&&&&&&**********88888888888",flush=True)
+        print(attraction_index,flush=True)
+        print("###################&&&&&&&&&&&&&&&&&&&&&**********88888888888",flush=True)
+        if attraction_index >= len(Austin.SF_sites):
+            print("77777777777777777777777",flush=True)
+            print(len(Austin.SF_sites),flush=True)
             attraction = Austin.hotel_index[attraction_index -len(Austin.SF_sites)]
             best_route_attractions.append(attraction)
         else:

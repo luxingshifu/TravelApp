@@ -83,7 +83,7 @@ class Traveler:
 
         hotel_index = pkl.load(open(root+'/good_data/San_Francisco/hotel_index.pkl', 'rb'))
         hotel_times = pkl.load(open(root+'/good_data/San_Francisco/hotel_times.pkl', 'rb'))
-        hotel_travel_costs = pkl.load(open('hotel_travel_costs.pkl', 'rb'))
+        hotel_travel_costs = pkl.load(open(root+'/good_data/San_Francisco/hotel_travel_costs.pkl', 'rb'))
 
         start_hotel_index = hotel_index.index(self.start) + len(user_site_indices)
         stop_hotel_index = hotel_index.index(self.stop) + len(user_site_indices)
