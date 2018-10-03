@@ -4,7 +4,7 @@ import recommender_files.recommender_v2 as recommender_v2
 # import datetime
 import os
 import itin_gen.api_itin as api_itin
-# import itin_gen.api_itin_3 as api_itin_3
+import itin_gen.api_itin_3 as api_itin_3
 
 #Need to re-generate final_attractions_dict for Los_Angeles.
 
@@ -42,7 +42,7 @@ def make_prediction(features):
     progress, routes, best_route, names, diagnostics=api_itin.itin_generator(recs,start, end, budget=budget,alpha=.8,ambition=[st,en],max_iterations=1000)
 
 
-    # actual_route_3 = api_itin_3.get_itinerary(recs, start, end, budget=budget, ambition=[st,en])
+    actual_route_3 = api_itin_3.get_itinerary(recs, start, end, budget=budget, ambition=[st,en])
     actual_route=[names[val] for val in routes[best_route][0]]
 
     key=os.environ['GOOGLEMAPS_KEY']
@@ -67,7 +67,7 @@ def make_prediction(features):
 
     result = {
         'recommendations':recs,
-        'actual_route':actual_route,
+        'actual_route':actual_route_3,
         'progress':progress,
         'rec_photo':rec_photo}
 

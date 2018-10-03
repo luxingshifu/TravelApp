@@ -9,7 +9,7 @@ from flask_googlemaps import GoogleMaps, Map
 from werkzeug.datastructures import ImmutableMultiDict
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey
 import itin_gen.get_route_geolocations as get_route_geolocations
-from get_route_geolocations import get_route_geolocations
+from itin_gen.get_route_geolocations import get_route_geolocations
 
 root =os.getcwd()
 hotel_index=pkl.load(open(root+'/good_data/San_Francisco/hotel_index.pkl','rb'))
@@ -178,4 +178,4 @@ def index():
     return render_template('index.html',hotel_index=hotel_index)
 
 if __name__ == '__main__':
-  app.run(debug=True)
+  app.run(host="0.0.0.0",port=80,debug=True)

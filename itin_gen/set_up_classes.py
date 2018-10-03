@@ -2,6 +2,10 @@
 
 import pickle as pkl
 import numpy as np
+import os
+root=os.getcwd().strip('itin_gen')
+
+
 
 '''SHARED CLASSES'''
 '''This sets up all the classes used by the final model(s).'''
@@ -28,7 +32,8 @@ class Traveler:
         '''open all the pre-calculated pickle files'''
 
         '''sites'''
-        site_index = pkl.load(open('site_index.pkl', 'rb'))
+        # site_index = pkl.load(open('site_index.pkl', 'rb'))
+        site_index=pkl.load(open(root+'/good_data/San_Francisco/site_index.pkl','rb'))
         highlight_bonuses = pkl.load(open('highlight_bonuses.pkl', 'rb'))
 
         visit_length = pkl.load(open('visit_length.pkl', 'rb'))
