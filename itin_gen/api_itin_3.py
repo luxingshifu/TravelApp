@@ -1,12 +1,12 @@
-import set_up_classes
-from set_up_classes import Traveler as Traveler
-from set_up_classes import Path as Path
-from set_up_classes import Route as Route
-from set_up_classes import initial_routes as initial_routes
-from set_up_classes import create_children as create_children
-from set_up_classes import ga_move as ga_move
-from set_up_classes import score_generation as score_generation
-from set_up_classes import ga_plot as ga_plot
+# import api_itin.set_up_classes
+from itin_gen.set_up_classes import Traveler as Traveler
+from itin_gen.set_up_classes import Path as Path
+from itin_gen.set_up_classes import Route as Route
+from itin_gen.set_up_classes import initial_routes as initial_routes
+from itin_gen.set_up_classes import create_children as create_children
+from itin_gen.set_up_classes import ga_move as ga_move
+from itin_gen.set_up_classes import score_generation as score_generation
+from itin_gen.set_up_classes import ga_plot as ga_plot
 
 def get_itinerary(user_preferences, start, stop, budget=200, ambition=[9,17]):
     Austin = Traveler(user_preferences, start, stop, budget, ambition)
