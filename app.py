@@ -15,11 +15,14 @@ root =os.getcwd()
 hotel_index=pkl.load(open(root+'/good_data/San_Francisco/hotel_index.pkl','rb'))
 
 
-GOOGLEMAPS_KEY = os.environ['GOOGLEMAPS_KEY']
+# GOOGLEMAPS_KEY = os.environ['GOOGLEMAPS_KEY']
+GOOGLEMAPS_KEY = os.environ.get('GOOGLEMAPS_KEY')
 # DATABASE_URL = os.environ['DATABASE_URL']
 
 metadata=MetaData()
-engine=create_engine('postgresql://localhost/postgres')
+# engine=create_engine('postgresql://localhost/postgres')
+
+engine=create_engine('postgresql://williamcottrell72:Weishenme72?@localhost:5432/travelapp')
 # engine=create_engine(DATABASE_URL)
 conn=engine.connect()
 metadata.reflect(bind=engine)
@@ -145,7 +148,7 @@ def index():
         # start = request.cookies.get(start)
         if not start:
 
-            view='SELECT nature, history, culture, life FROM user_data'
+            view='SELECT nature, history, culture, life FROM san_francisco_user_data'
             d=dict(pd.read_sql(view,engine).iloc[-1])
             #set start initial time
             nature=d['nature']
