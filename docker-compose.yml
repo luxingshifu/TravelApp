@@ -1,8 +1,12 @@
-version: "3"
+version: "3.1"
 services:
   web:
     # replace username/repo:tag with your name and image details
     image: williamcottrell72/travelapp:travelapp_v1
+    build: ./app
+    expose:
+      - "80"
+    env_file: .env
     deploy:
       replicas: 5
       resources:
@@ -16,5 +20,10 @@ services:
       - "5432:5432"
     networks:
       - webnet
-networks:
-  webnet:
+      - bridge
+
+  db:
+    restart: always
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: Weishenme72?
