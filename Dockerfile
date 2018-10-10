@@ -7,7 +7,7 @@ WORKDIR /app
 
 RUN pip install pipenv
 
-RUN pipenv install --system --deploy
+RUN pipenv install --system --deploy 
 
 EXPOSE 80
 
