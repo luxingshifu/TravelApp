@@ -1,15 +1,21 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "4e28a9507895d137aa097ae3e951844f233851be8e7fe03b9289b4590bdc3214"
+            "sha256": "0c5d7930cae803bd1b7aeea66f202a8d7997e0f0e32ef937b854723ed82c2912"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.6"
+            "python_version": "3.7"
         },
         "sources": [
             {
+                "name": "pypi",
                 "url": "https://pypi.python.org/simple",
+                "verify_ssl": true
+            },
+            {
+                "name": "pytorch",
+                "url": " http://download.pytorch.org/whl/cpu/torch-0.4.1.post2-cp37-cp37m-linux_x86_64.whl",
                 "verify_ssl": true
             }
         ]
@@ -34,7 +40,6 @@
                 "sha256:2335065e6395b9e67ca716de5f7526736bfa6ceead690adf616d925bdc622b13",
                 "sha256:5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7"
             ],
-            "markers": "python_version != '3.2.*' and python_version != '3.3.*' and python_version != '3.0.*' and python_version >= '2.7' and python_version != '3.1.*'",
             "version": "==7.0"
         },
         "flask": {
@@ -42,6 +47,7 @@
                 "sha256:2271c0070dbcb5275fad4a82e29f23ab92682dc45f9dfbc22c02ba9b9322ce48",
                 "sha256:a080b744b7e345ccfcbc77954861cb05b3c63786e93f2b3875e0913d44b43f05"
             ],
+            "index": "pypi",
             "version": "==1.0.2"
         },
         "flask-googlemaps": {
@@ -49,6 +55,7 @@
                 "sha256:a3de1e5dcd652feb6d43362900a052e3d91a1a2eafb9aae98b7c533bee286fa8",
                 "sha256:ea045e06236095bf4c8da6993c2abee2878b779d2362b2ae8139f62edb618165"
             ],
+            "index": "pypi",
             "version": "==0.2.6"
         },
         "gunicorn": {
@@ -56,6 +63,7 @@
                 "sha256:aa8e0b40b4157b36a5df5e599f45c9c76d6af43845ba3b3b0efe2c70473c2471",
                 "sha256:fa2662097c66f920f53f70621c6c58ca4a3c4d3434205e608e121b5b3b71f4f3"
             ],
+            "index": "pypi",
             "version": "==19.9.0"
         },
         "idna": {
@@ -115,6 +123,7 @@
                 "sha256:f592fd7fe1f20b5041928cce1330937eca62f9058cb41e69c2c2d83cffc0d1e3",
                 "sha256:ffab5b80bba8c86251291b8ce2e6c99a61446459d4c6637f5d5cc8c9ce37c972"
             ],
+            "index": "pypi",
             "version": "==1.15.2"
         },
         "pandas": {
@@ -140,6 +149,7 @@
                 "sha256:f71f1a7e2d03758f6e957896ed696254e2bc83110ddbc6942018f1a232dd9dad",
                 "sha256:fb944c8f0b0ab5c1f7846c686bc4cdf8cde7224655c12edcd59d5212cd57bec0"
             ],
+            "index": "pypi",
             "version": "==0.23.4"
         },
         "pillow": {
@@ -175,7 +185,6 @@
                 "sha256:f52b79c8796d81391ab295b04e520bda6feed54d54931708872e8f9ae9db0ea1",
                 "sha256:ff8cff01582fa1a7e533cb97f628531c4014af4b5f38e33cdcfe5eec29b6d888"
             ],
-            "markers": "python_version != '3.2.*' and python_version != '3.3.*' and python_version >= '2.7' and python_version != '3.0.*' and python_version != '3.1.*'",
             "version": "==5.3.0"
         },
         "psycopg2": {
@@ -211,6 +220,7 @@
                 "sha256:f4b0460a21f784abe17b496f66e74157a6c36116fa86da8bf6aa028b9e8ad5fe",
                 "sha256:f93d508ca64d924d478fb11e272e09524698f0c581d9032e68958cfbdd41faef"
             ],
+            "index": "pypi",
             "version": "==2.7.5"
         },
         "python-dateutil": {
@@ -232,6 +242,7 @@
                 "sha256:63b52e3c866428a224f97cab011de738c36aec0185aa91cfacd418b5d58911d1",
                 "sha256:ec22d826a36ed72a7358ff3fe56cbd4ba69dd7a6718ffd450ff0e9df7a47ce6a"
             ],
+            "index": "pypi",
             "version": "==2.19.1"
         },
         "six": {
@@ -245,18 +256,22 @@
             "hashes": [
                 "sha256:c5951d9ef1d5404ed04bae5a16b60a0779087378928f997a294d1229c6ca4d3e"
             ],
+            "index": "pypi",
             "version": "==1.2.12"
         },
         "torch": {
+            "file": "http://download.pytorch.org/whl/cpu/torch-0.4.1.post2-cp37-cp37m-linux_x86_64.whl",
             "hashes": [
                 "sha256:61d653dc464bc51402b73379af9a025b3b7eaa258b37e576601e3e0d92f2b97e"
             ],
+            "index": "pypi",
             "version": "==0.4.1.post2"
         },
         "torchvision": {
             "hashes": [
                 "sha256:ba0a5e7fa1646d4e7f2e5ad5802d123e17e42a1a9c026d0f79d2fd3a976afba1"
             ],
+            "index": "pypi",
             "version": "==0.2.1"
         },
         "urllib3": {
@@ -264,7 +279,6 @@
                 "sha256:a68ac5e15e76e7e5dd2b8f94007233e01effe3e50e8daddf69acfd81cb686baf",
                 "sha256:b5725a0bd4ba422ab0e66e89e030c806576753ea3ee08554382c14e685d117b5"
             ],
-            "markers": "python_version != '3.3.*' and python_version != '3.0.*' and python_version != '3.2.*' and python_version < '4' and python_version != '3.1.*' and python_version >= '2.6'",
             "version": "==1.23"
         },
         "werkzeug": {

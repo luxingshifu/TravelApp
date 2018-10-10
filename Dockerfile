@@ -12,5 +12,5 @@ RUN pipenv install --system --deploy
 EXPOSE 80
 
 EXPOSE 5432
-
+ENTRYPOINT["python"]
 CMD ["python", "app.py"]

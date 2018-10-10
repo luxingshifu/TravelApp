@@ -1,19 +1,26 @@
 [[source]]
 url = "https://pypi.python.org/simple"
 verify_ssl = true
+name = "pypi"
+
+[[source]]
+url = " http://download.pytorch.org/whl/cpu/torch-0.4.1.post2-cp37-cp37m-linux_x86_64.whl"
+verify_ssl = true
+name ="pytorch"
+
+[requires]
+python_version = "3.7"
 
 [packages]
 gunicorn = "*"
 requests = "*"
 flask = "*"
 numpy = "*"
-# torch = {file = "http://download.pytorch.org/whl/cpu/torch-0.4.1-cp36-cp36m-linux_x86_64.whl"}
-torch = "*"
+# torch = {file = "http://download.pytorch.org/whl/cpu/torch-0.4.1.post2-cp37-cp37m-linux_x86_64.whl"}
+# torch = "*"
+torch = {version="0.4.1", index="pytorch"}
 pandas = "*"
 sqlalchemy = "*"
 flask_googlemaps = "*"
 psycopg2 = "*"
 torchvision = "*"
-
-[requires]
-python_version = "3.6"
