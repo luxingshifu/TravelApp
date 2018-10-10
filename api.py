@@ -50,7 +50,7 @@ def make_prediction(features):
     actual_route_3 = api_itin_3.get_itinerary(recs, start, end, budget=budget, ambition=[st,en])
     # actual_route=[names[val] for val in routes[best_route][0]]
 
-    key=os.environ['GOOGLEMAPS_KEY']
+    key=os.environ.get('GOOGLEMAPS_KEY')
     rec_photo=[]
     for place in recs:
         try:

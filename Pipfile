@@ -1,6 +1,15 @@
 [[source]]
 url = "https://pypi.python.org/simple"
 verify_ssl = true
+name = "pypi"
+
+[[source]]
+url = " http://download.pytorch.org/whl/cpu/torch-0.4.1.post2-cp37-cp37m-linux_x86_64.whl"
+verify_ssl = true
+name ="pytorch"
+
+[requires]
+python_version = "3.7"
 
 [packages]
 gunicorn = "*"
@@ -11,6 +20,4 @@ pandas = "*"
 sqlalchemy = "*"
 flask_googlemaps = "*"
 psycopg2 = "*"
-
-[requires]
-python_version = "3.6"
+torchvision = "*"
