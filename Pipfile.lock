@@ -255,18 +255,7 @@
             "index": "pypi",
             "version": "==1.2.12"
         },
-        "torch": {
-            "hashes": [
-                "sha256:61d653dc464bc51402b73379af9a025b3b7eaa258b37e576601e3e0d92f2b97e"
-            ],
-            "version": "==0.4.1.post2"
-        },
-        "torchvision": {
-            "hashes": [
-                "sha256:ba0a5e7fa1646d4e7f2e5ad5802d123e17e42a1a9c026d0f79d2fd3a976afba1"
-            ],
-            "index": "pypi",
-            "version": "==0.2.1"
+
         },
         "urllib3": {
             "hashes": [
