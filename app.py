@@ -15,14 +15,14 @@ hotel_index=pkl.load(open(root+'/good_data/San_Francisco/hotel_index.pkl','rb'))
 
 
 GOOGLEMAPS_KEY = os.environ.get('GOOGLEMAPS_KEY')
-DATABASE_URL = os.environ.get('DATABASE_URL')
+# DATABASE_URL = os.environ.get('DATABASE_URL')
 # LOCAL_DATABASE=os.environ.get('LOCAL_DATABASE')
 
 metadata=MetaData()
-# engine=create_engine('postgresql://localhost/postgres')
+engine=create_engine('postgresql://localhost/postgres')
 
 # engine=create_engine(LOCAL_DATABASE,pool_pre_ping=True)
-engine=create_engine(DATABASE_URL,pool_pre_ping=True)
+# engine=create_engine(DATABASE_URL,pool_pre_ping=True)
 conn=engine.connect()
 metadata.reflect(bind=engine)
 user_table=metadata.tables['san_francisco_user_data']
@@ -74,7 +74,7 @@ def fun():
     source = "https://maps.googleapis.com/maps/api/js?key="+GOOGLEMAPS_KEY+"&callback=initMap"
     new_route=[str(x) for x in good_route]
     dct = get_route_geolocations(good_route)
-    return render_template('gmaps2.html', results = dct, map = source)
+    return render_template('gmaps2.html', results = dct, map = source,gkey=GOOGLEMAPS_KEY)
 
 
 # @app.route('/cookie/')
