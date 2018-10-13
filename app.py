@@ -4,7 +4,6 @@ from flask_googlemaps import GoogleMaps, Map
 import pandas as pd
 import os
 import pickle as pkl
-from flask_googlemaps import GoogleMaps, Map
 # from boto.s3.connection import S3Connection
 from werkzeug.datastructures import ImmutableMultiDict
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey

@@ -1,0 +1,6 @@
+Flask
+Redis
+flask_googlemaps
+pandas
+sqlalchemy
+numpy
