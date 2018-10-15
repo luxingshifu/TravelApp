@@ -4,6 +4,7 @@ from flask_googlemaps import GoogleMaps, Map
 import pandas as pd
 import os
 import pickle as pkl
+import redis
 # from boto.s3.connection import S3Connection
 from werkzeug.datastructures import ImmutableMultiDict
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey
@@ -26,6 +27,10 @@ engine=create_engine('postgresql://localhost/postgres')
 conn=engine.connect()
 metadata.reflect(bind=engine)
 user_table=metadata.tables['san_francisco_user_data']
+
+r=redis.Redis(
+    host='localhost',
+    port=6379)
 
 
 
@@ -74,17 +79,13 @@ def fun():
     source = "https://maps.googleapis.com/maps/api/js?key="+GOOGLEMAPS_KEY+"&callback=initMap"
     new_route=[str(x) for x in good_route]
     dct = get_route_geolocations(good_route)
-    return render_template('gmaps2.html', results = dct, map = source,gkey=GOOGLEMAPS_KEY)
+    # rec_photo=session['rec_photo']
+    rec_photo=pkl.loads(r.get('pkl_rec_photo'))
+    print("Here is the recphoto",flush=True)
+    print(rec_photo,flush=True)
+    return render_template('new_map.html', results = dct, map = source,rec_photo=rec_photo)
 
 
-# @app.route('/cookie/')
-# def cookie():
-#     if not request.cookies.get('foo'):
-#         res = make_response("YOLO")
-#         res.set_cookie('foo', 'barrel', max_age=60*60*24*365*2)
-#     else:
-#         res = make_response("Value of cookie foo is {}".format(request.cookies.get('foo')))
-#     return res
 
 @app.route('/trap', methods=['GET','POST'])
 def function():
@@ -96,10 +97,10 @@ def function():
 
         data=request.form.to_dict()
         d={str(k):data[k] for k in data.keys()}
-        print("############################################",flush=True)
-        print(d,flush=True)
-        print(d['name'],flush=True)
-        print("############################################",flush=True)
+        # print("############################################",flush=True)
+        # print(d,flush=True)
+        # print(d['name'],flush=True)
+        # print("############################################",flush=True)
 
         try:
             response=make_prediction(d)
@@ -107,6 +108,15 @@ def function():
             return render_template('error.html')
         # route=response['actual_route']
         result = response['recommendations']
+        pkl_rec_photo=pkl.dumps(response['rec_photo'])
+        r.set('pkl_rec_photo',pkl_rec_photo)
+
+        #
+        # print("############################################",flush=True)
+        #
+        # # print(session['rec_photo'],flush=True)
+        # print("############################################",flush=True)
+
         session['actual_route']=response['actual_route']
         session['starttime']=d['starttime']
         session['name']=d['name']
