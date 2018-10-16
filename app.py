@@ -97,10 +97,6 @@ def function():
 
         data=request.form.to_dict()
         d={str(k):data[k] for k in data.keys()}
-        # print("############################################",flush=True)
-        # print(d,flush=True)
-        # print(d['name'],flush=True)
-        # print("############################################",flush=True)
 
         try:
             response=make_prediction(d)
@@ -110,12 +106,6 @@ def function():
         result = response['recommendations']
         pkl_rec_photo=pkl.dumps(response['rec_photo'])
         r.set('pkl_rec_photo',pkl_rec_photo)
-
-        #
-        # print("############################################",flush=True)
-        #
-        # # print(session['rec_photo'],flush=True)
-        # print("############################################",flush=True)
 
         session['actual_route']=response['actual_route']
         session['starttime']=d['starttime']
