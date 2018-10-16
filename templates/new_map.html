@@ -8,6 +8,11 @@
 
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
 
 
 
@@ -231,11 +236,16 @@
 
      <p id="demo"></p>
 
-     <div align="center" class="input">
-        <form action='/map' METHOD="POST">
-        <p><input type="submit" value="Get New Itinerary"/></p>
+     <!-- <div align="center" class="input">
+        <form action='/map' METHOD="GET">
+        <p><button id ="newItin"/>Get New Itinerary</button></p>
         </form>
+    </div> -->
+    <div align="center" class="input">
+    <p><button id ="newItin"/>Get New Itinerary</button></p>
     </div>
+
+
 
      <div align="right" class="input">
        <form action = '/' METHOD = "GET">
@@ -243,10 +253,9 @@
        </form>
     </div>
 
+
 <script>
-
-
-
+var addons = new Array();
 
 function dragStart(event) {
     event.dataTransfer.setData("Text", event.target.id);
@@ -259,9 +268,18 @@ function allowDrop(event) {
 function drop(event) {
   event.preventDefault();
   var data = event.dataTransfer.getData("Text");
+  addons=addons.concat([data]);
   event.target.appendChild(document.getElementById(data));
   document.getElementById("demo").innerHTML ="Dropped it like it's hot!!!";
 }
+
+$('#newItin').click( ()=> {cool();} );
+
+function cool(){
+  console.log(addons);
+}
+
+
 </script>
 
    </body>
