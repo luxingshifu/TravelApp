@@ -122,8 +122,8 @@
     <div class="sidenav">
     <table>
       {% for x in rec_photo %}
-      <tr ondragstart="dragStart(event)" draggable="true", id="dragtarget">
-        <td><p>{{x[0]}}</p></td>
+      <tr>
+        <td><p ondragstart="dragStart(event)" draggable="true" id="{{loop.index}}">{{x[0]}}</p></td>
       </tr>
       {% endfor %}
    </table>
@@ -268,7 +268,8 @@ function allowDrop(event) {
 function drop(event) {
   event.preventDefault();
   var data = event.dataTransfer.getData("Text");
-  addons=addons.concat([data]);
+  var data2=document.getElementById(data).innerHTML;
+  addons=addons.concat([data2]);
   event.target.appendChild(document.getElementById(data));
   document.getElementById("demo").innerHTML ="Dropped it like it's hot!!!";
 }
