@@ -5,6 +5,7 @@ import pandas as pd
 import os
 import pickle as pkl
 import redis
+import json
 # from boto.s3.connection import S3Connection
 from werkzeug.datastructures import ImmutableMultiDict
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, ForeignKey
@@ -66,7 +67,7 @@ def initialize():
     session['start']=True
 
 
-@app.route('/map')
+@app.route('/map',methods=['GET','POST'])
 def fun():
     # actual_route = ['The Fairmont San Francisco', 'New United States Mint', 'Vinicola de Coppola',
     # 'Japantown', 'Madame Tussauds San Francisco', 'San Francisco State University',
@@ -74,15 +75,22 @@ def fun():
     # 'San Francisco Opera', 'Golden Gate Bridge', 'San Francisco City Hall', 'Louise M. Davies Symphony Hall',
     # 'Labyrinth of Cultures', 'Sing Fat Co. building', 'Hotel Zelos']
 
+    # addons=request.form.to_dict()
+    # blah=request.get_json(force=True)
+    # addons=request.args.getlist('name')
+    addons=request.args.get('name')
 
+    print("#############################################################",flush=True)
+    print(type(addons),flush=True)
+    print("#############################################################",flush=True)
     good_route=session['actual_route']
     source = "https://maps.googleapis.com/maps/api/js?key="+GOOGLEMAPS_KEY+"&callback=initMap"
     new_route=[str(x) for x in good_route]
     dct = get_route_geolocations(good_route)
     # rec_photo=session['rec_photo']
     rec_photo=pkl.loads(r.get('pkl_rec_photo'))
-    print("Here is the recphoto",flush=True)
-    print(rec_photo,flush=True)
+    # print("Here is the recphoto",flush=True)
+    # print(rec_photo,flush=True)
     return render_template('new_map.html', results = dct, map = source,rec_photo=rec_photo)
 
 

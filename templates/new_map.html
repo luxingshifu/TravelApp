@@ -156,6 +156,7 @@
        </tr>
        </table>
 
+<!-- /* Making the map */ -->
      <script>
        function initMap() {
          var markerArray = [];
@@ -241,9 +242,16 @@
         <p><button id ="newItin"/>Get New Itinerary</button></p>
         </form>
     </div> -->
+    <!-- <form action="/map" METHOD = "POST">
     <div align="center" class="input">
+    <input type='text' id='addons'/>
     <p><button id ="newItin"/>Get New Itinerary</button></p>
     </div>
+    </form> -->
+
+    <div align="center" class="input">
+    <p><button id ="newItin"/>Get New Itinerary</button></p>
+  </div>dx
 
 
 
@@ -278,6 +286,15 @@ $('#newItin').click( ()=> {cool();} );
 
 function cool(){
   console.log(addons);
+  // /*features=[{name:'John'},{name:'Paul'},{name:'George'},{name:'Ringo'}]*/
+  /*let features={name:JSON.stringify(['Hi', 'Good morning'])}*/
+  /*var obj=JSON.stringify(features)*/
+  let features={name:JSON.stringify(addons)}
+
+  $.get('/map',features)
+
+  /* code here to re-render template */
+
 }
 
 

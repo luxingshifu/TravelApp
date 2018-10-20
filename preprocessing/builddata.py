@@ -3,6 +3,7 @@ import pickle as pkl
 import bisect
 import os
 # import sys
+# May need to change some directory names depending on where this script is run.
 approot=os.getcwd().strip('preprocessing')
 # sys.path.append(approot+'recommender_files')
 import pandas as pd
@@ -17,8 +18,8 @@ from fuzzywuzzy import process
 #a variable determined by the user.
 
 city='Los_Angeles'
-data_dir=approot+'good_data/'+city
-style_mapper=pkl.load(open(approot+'good_data/style_mapper.pkl','rb'))
+data_dir=approot+'/good_data/'+city
+style_mapper=pkl.load(open(approot+'/good_data/style_mapper.pkl','rb'))
 site_index=pkl.load(open(data_dir+'/site_index.pkl','rb'))
 loc_info=pkl.load(open(data_dir+'/loc_info.pkl','rb'))
 
