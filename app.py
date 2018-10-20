@@ -57,6 +57,7 @@ def clean_string(bla):
 # from api_itin import itin_generator
 
 app=Flask('TravelApp')
+app.config['TEMPLATES_AUTO_RELOAD']=True
 app.secret_key='asdfjkl;'
 app.config['GOOGLEMAPS_KEY']=GOOGLEMAPS_KEY
 
@@ -78,19 +79,29 @@ def fun():
     # addons=request.form.to_dict()
     # blah=request.get_json(force=True)
     # addons=request.args.getlist('name')
-    addons=request.args.get('name')
+    # addons=request.args.get('name')
 
-    print("#############################################################",flush=True)
-    print(type(addons),flush=True)
-    print("#############################################################",flush=True)
+
+
     good_route=session['actual_route']
-    source = "https://maps.googleapis.com/maps/api/js?key="+GOOGLEMAPS_KEY+"&callback=initMap"
-    new_route=[str(x) for x in good_route]
-    dct = get_route_geolocations(good_route)
+
+    addons=request.form['name']
+    print("#############################################################",flush=True)
+    print(addons,flush=True)
+    print("#############################################################",flush=True)
+    if addons:
+        addons_list=[x.strip('"') for x in addons.strip('[').strip(']').split(',')]
+        session['actual_route']=good_route[:-1]+addons_list+[good_route[-1]]
+        dct = get_route_geolocations(session['actual_route'])
+
+    else:
+        dct=get_route_geolocations(good_route)
     # rec_photo=session['rec_photo']
     rec_photo=pkl.loads(r.get('pkl_rec_photo'))
     # print("Here is the recphoto",flush=True)
     # print(rec_photo,flush=True)
+
+    source = "https://maps.googleapis.com/maps/api/js?key="+GOOGLEMAPS_KEY+"&callback=initMap"
     return render_template('new_map.html', results = dct, map = source,rec_photo=rec_photo)
 
 

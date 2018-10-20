@@ -248,10 +248,12 @@
     <p><button id ="newItin"/>Get New Itinerary</button></p>
     </div>
     </form> -->
-
+    <!-- /*<form action="/map" METHOD="POST">*/ -->
     <div align="center" class="input">
+      <input type='text' id='test' name='test'>
     <p><button id ="newItin"/>Get New Itinerary</button></p>
-  </div>dx
+    </div>
+   <!-- </form> -->
 
 
 
@@ -263,6 +265,31 @@
 
 
 <script>
+
+function post(path, params, method) {
+    method = method || "post";
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+        }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+
+
+
 var addons = new Array();
 
 function dragStart(event) {
@@ -286,14 +313,12 @@ $('#newItin').click( ()=> {cool();} );
 
 function cool(){
   console.log(addons);
-  // /*features=[{name:'John'},{name:'Paul'},{name:'George'},{name:'Ringo'}]*/
-  /*let features={name:JSON.stringify(['Hi', 'Good morning'])}*/
-  /*var obj=JSON.stringify(features)*/
   let features={name:JSON.stringify(addons)}
 
-  $.get('/map',features)
+  /*// $.get('/map',features)*/
+  /* This method will re-render template with new data*/
+  post('/map',features)
 
-  /* code here to re-render template */
 
 }
 
