@@ -57,7 +57,7 @@ def clean_string(bla):
 # from api_itin import itin_generator
 
 app=Flask('TravelApp')
-app.config['TEMPLATES_AUTO_RELOAD']=True
+# app.config['TEMPLATES_AUTO_RELOAD']=True
 app.secret_key='asdfjkl;'
 app.config['GOOGLEMAPS_KEY']=GOOGLEMAPS_KEY
 
@@ -84,11 +84,10 @@ def fun():
 
 
     good_route=session['actual_route']
-
-    addons=request.form['name']
-    print("#############################################################",flush=True)
-    print(addons,flush=True)
-    print("#############################################################",flush=True)
+    try:
+        addons=request.form['name']
+    except:
+        addons=None
     if addons:
         addons_list=[x.strip('"') for x in addons.strip('[').strip(']').split(',')]
         session['actual_route']=good_route[:-1]+addons_list+[good_route[-1]]
